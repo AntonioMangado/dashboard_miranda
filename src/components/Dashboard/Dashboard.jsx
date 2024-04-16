@@ -1,36 +1,45 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faMagnifyingGlass, faHeart, faEnvelope, faBell, faMessage } from '@fortawesome/free-solid-svg-icons';
+import { NotificationBar } from "../../styledComponents/NotificationBar";
+import NotificationBarID from "../NotificationBarID";
+import { DashboardContent } from "../../styledComponents/DashboardContent";
 
 const Dashboard = () => {
 
   return (
   <section>
-    <article className="notification-bar">
-      <div className="notification-bar__id">
-        <FontAwesomeIcon icon={faBars} />
-        <p>Dashboard</p>
-      </div>
-      <div className="notification-bar__notifications">
-        <div className="notifications">
+    <NotificationBar>
+      <NotificationBarID title="Dashboard"/>
+      <div>
+        <div>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
           <FontAwesomeIcon icon={faHeart} />
           <FontAwesomeIcon icon={faEnvelope} />
           <FontAwesomeIcon icon={faBell} />
           <FontAwesomeIcon icon={faMessage} />
-          <img src="" alt="admin's profile picture" />
+          <img src="./cat-avatar.jpg" alt="admin's profile picture" />
         </div>
-        <div className="language">
+        <div>
           <select name="language" id="language">
             <option value="EN">EN</option>
             <option value="ES">ES</option>
           </select>
         </div>
       </div>
-    </article>
-    <article className="dashboard-content">
-      
-    </article>
+    </NotificationBar>
+    <DashboardContent>
+      <div className="item1">1</div>
+      <div className="item2">2</div>
+      <div className="item3">3</div>
+      <div className="item4">4</div>
+      <div className="item5">Calendar</div>
+      <div className="item6">BarChart</div>
+      <div className="item7">7</div>
+      <div className="item8">8</div>
+      <div className="item9">9</div>
+      <div className="item10">10</div>
+    </DashboardContent>
   </section>
   )
 

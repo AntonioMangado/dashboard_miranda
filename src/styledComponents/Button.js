@@ -7,7 +7,6 @@ export const Button = styled.button`
     color: ${colors.primary};
     font-weight: 600;
     border-radius: 12px;
-    width: ${props => props.variant === 'wide' ? '100%' : 'auto'};
     border: none;
     cursor: pointer;
 
@@ -19,5 +18,9 @@ export const Button = styled.button`
     ${props => props.$secondary && css`
         background-color: ${colors.secondary};
         color: ${colors.primary};
+    `};
+
+    ${props => props.$wide && css`
+        width: 100%;
     `};
 `

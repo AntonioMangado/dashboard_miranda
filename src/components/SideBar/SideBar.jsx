@@ -40,7 +40,7 @@ const SideBar = ({setAuth}) => {
         <p>Antonio Mangado</p>
         <p>miemail@gmail.com</p>
       </div>
-      <Button $secondary variant="wide" onClick={handleLogout}>EDIT</Button>
+      <Button $secondary $wide onClick={handleLogout}>EDIT</Button>
     </AdminCard>
     <Footer>
       <div>

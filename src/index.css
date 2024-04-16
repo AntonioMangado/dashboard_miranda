@@ -9,10 +9,12 @@ body {
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    height: 100vh;
 
     #root {
         display: grid;
         grid-template-columns: fit-content(302px) 5.5fr;
         grid-template-rows: 120px 1fr;
+        height: 100%;
     }
 }
