@@ -1,14 +1,15 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faMagnifyingGlass, faHeart, faEnvelope, faBell, faMessage } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faBed, faHeart, faEnvelope, faBell, faMessage, faCalendarCheck, faArrowRightToBracket, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { NotificationBar } from "../../styledComponents/NotificationBar";
 import NotificationBarID from "../NotificationBarID";
 import { DashboardContent } from "../../styledComponents/DashboardContent";
+import { GridItem } from "../../styledComponents/GridItem";
 
 const Dashboard = () => {
 
   return (
-  <section>
+  <>
     <NotificationBar>
       <NotificationBarID title="Dashboard"/>
       <div>
@@ -29,21 +30,43 @@ const Dashboard = () => {
       </div>
     </NotificationBar>
     <DashboardContent>
-      <div className="item1">1</div>
-      <div className="item2">2</div>
-      <div className="item3">3</div>
-      <div className="item4">4</div>
-      <div className="item5">Calendar</div>
-      <div className="item6">BarChart</div>
-      <div className="item7">7</div>
-      <div className="item8">8</div>
-      <div className="item9">9</div>
-      <div className="item10">10</div>
+      <GridItem $iconStats>
+        <FontAwesomeIcon icon={faBed} />
+        <div>
+          <p>8461</p>
+          <p>New bookings</p>
+        </div>
+      </GridItem>
+      <GridItem $iconStats $light>
+        <FontAwesomeIcon icon={faCalendarCheck} />
+        <div>
+          <p>963</p>
+          <p>Scheduled Rooms</p>
+        </div>
+      </GridItem>
+      <GridItem $iconStats>
+        <FontAwesomeIcon icon={faArrowRightToBracket} />
+        <div>
+          <p>753</p>
+          <p>Check Ins</p>
+        </div>
+      </GridItem>
+      <GridItem $iconStats>
+        <FontAwesomeIcon icon={faRightFromBracket} />
+        <div>
+          <p>516</p>
+          <p>Check Outs</p>
+        </div>
+      </GridItem>
+      <GridItem $columnSpan2 $rowSpan4>Calendar</GridItem>
+      <GridItem $columnSpan2 $rowSpan2>BarChart</GridItem>
+      <GridItem $primaryColor>AvailableRooms</GridItem>
+      <GridItem $primaryColor>SoldOutRooms</GridItem>
+      <GridItem $columnSpan2>ConciergeStats</GridItem>
+      <GridItem $columnSpan4 $rowSpan2>LatestReviews</GridItem>
     </DashboardContent>
-  </section>
-  )
-
-    ;
+  </>
+  );
 };
 
 export default Dashboard;
