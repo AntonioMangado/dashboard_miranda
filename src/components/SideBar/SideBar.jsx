@@ -31,10 +31,10 @@ const SideBar = ({setAuth}) => {
         <Link><FontAwesomeIcon icon={faCalendar} /><a href="/bookings">Bookings</a></Link>
         <Link><FontAwesomeIcon icon={faKey} /><a href="/rooms">Rooms</a></Link>
         <Link><FontAwesomeIcon icon={faPuzzlePiece} /><a href="/concierge">Contact</a></Link>
-        <Link><FontAwesomeIcon icon={faUser} /><a href="/guests">Users</a></Link>
+        <Link><FontAwesomeIcon icon={faUser} /><a href="/staff">Staff</a></Link>
       </ul>
     </NavBar>
-    <AdminCard className="sidebar__admin-user">
+    <AdminCard>
       <img src="/cat-avatar.jpg" alt="admin's profile picture" />
       <div>
         <p>Antonio Mangado</p>

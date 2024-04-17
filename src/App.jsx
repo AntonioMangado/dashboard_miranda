@@ -5,7 +5,7 @@ import Login from "./components/Login"
 import Dashboard from "./components/Dashboard"
 import GuestList from "./components/GuestList"
 import GuestDetails from "./components/GuestDetails"
-import ConciergeList from "./components/ConciergeList"
+import Staff from "./components/Staff"
 import RoomList from "./components/RoomList"
 import RoomDetails from "./components/RoomDetails"
 import Reviews from "./components/Reviews"
@@ -18,14 +18,16 @@ export default function App() {
 
   const [auth, setAuth] = useState(localStorage.getItem('auth') || false);
   
-  
   return (
     <>
     <BrowserRouter>
       {auth ? <SideBar setAuth={setAuth}/> : <></>}
       <Routes>
-        <Route path="/" element={<Login setAuth={setAuth}/>} />
         <Route path="/login" element={<Login setAuth={setAuth}/>} />
+        <Route path="/" element={
+          <PrivateRoute auth={auth} >
+            <Dashboard />
+          </PrivateRoute> } />
         <Route path="/dashboard" element={
           <PrivateRoute auth={auth} >
             <Dashboard />
@@ -34,9 +36,9 @@ export default function App() {
           <PrivateRoute auth={auth} >
             <GuestList />
           </PrivateRoute> } />
-        <Route path="/concierge" element={
+        <Route path="/staff" element={
           <PrivateRoute auth={auth} >
-            <ConciergeList />
+            <Staff />
           </PrivateRoute> } />
         <Route path="/rooms" element={
           <PrivateRoute auth={auth} >

@@ -1,7 +1,14 @@
 import React from "react";
+import NotificationBar from "../NotificationBar";
+import RoomsContent from "./RoomsContent";
 
 const RoomList = () => {
-  return <div>RoomList</div>;
+  return (
+  <>
+    <NotificationBar title="Rooms" />
+    <RoomsContent />
+  </>
+  );
 };
 
 export default RoomList;

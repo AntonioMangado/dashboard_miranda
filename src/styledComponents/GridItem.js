@@ -28,7 +28,7 @@ export const GridItem = styled.div`
         color: white;
     `};
 
-    ${props => props.$iconStats && css`
+    ${props => props.$KPI && css`
         display: flex;
         align-items: center;
         gap: 20px;
@@ -59,5 +59,45 @@ export const GridItem = styled.div`
                 color: white;
                 background-color: ${colors.danger};
         };
+    `};
+
+    ${props => props.$rooms && css`
+
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        div {
+            &:first-of-type {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                p {
+                    margin: 0;
+
+                    &:first-of-type {
+                        font: normal normal 300 14px/21px Poppins;
+                    };
+
+                    &:last-of-type {
+                        font: normal normal 600 20px/30px Poppins;
+                    };
+                };
+            }
+
+            &:last-of-type {
+                height: 13px;
+                width: 100%;
+                background-color: #ffffff33;
+                border-radius: 20px;
+
+                div {
+                    height: 100%;
+                    width: 63%;
+                    background-color: #ffffff;
+                    border-radius: 20px;
+                }
+            };
+        }
     `};
 `
