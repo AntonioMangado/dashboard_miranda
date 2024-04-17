@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components"
 import Filters from "../../Filters"
 import Table from "../../Table"
@@ -135,13 +135,15 @@ const bookings = [
   }
 ];
 
+const StyledBookingsContainer = styled.div`
+  padding: 35px;
+  overflow-y: auto;
+`
 
 const BookingsContent = () => {
 
-  const StyledBookingsContainer = styled.div`
-    padding: 35px;
-    overflow-y: auto;
-  `
+
+  const [bookingData, setBookingData] = useState(bookings)
 
   const cols = [
     {property: 'name', label: 'Name', display: (data) => (
@@ -159,8 +161,8 @@ const BookingsContent = () => {
   
   return (
   <StyledBookingsContainer>
-    <Filters />
-    <Table cols={cols} data={bookings}/>
+    <Filters setBookingData={setBookingData} bookingData={bookingData}/>
+    <Table cols={cols} data={bookingData}/>
   </StyledBookingsContainer>
   );
 };
