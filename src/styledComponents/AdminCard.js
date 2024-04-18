@@ -14,6 +14,7 @@ export const AdminCard = styled.article`
         height: 70px;
         object-fit: cover;
         border-radius: 8px;
+        margin-bottom: 10px;
     }
 
     div {

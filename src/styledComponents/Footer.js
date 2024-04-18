@@ -5,7 +5,8 @@ export const Footer = styled.article`
 
     p {
         font: normal normal 300 12px Poppins; 
-        color: ${colors.primary_text}; 
+        color: ${colors.primary_text};
+        margin-bottom: 20px;
     }
 
     div {

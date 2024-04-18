@@ -1,5 +1,4 @@
 import React from "react";
-import { colors } from "../../assets/theme";
 import { StyledSelect } from "../../styledComponents/Select";
 import { StyledFilters } from "../../styledComponents/StyledFilters";
 import { Button } from "../../styledComponents/Button";
