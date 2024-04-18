@@ -1,52 +1,51 @@
 import React from "react";
-import styled from "styled-components";
 import { colors } from "../../assets/theme";
 import { StyledSelect } from "../../styledComponents/Select";
+import { StyledFilters } from "../../styledComponents/StyledFilters";
+import { Button } from "../../styledComponents/Button";
 
-const StyledFilters = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+const Filters = ({data, setData, buttons}) => {
 
-  div {
-    button {
-      padding: 13px 26px;
-      border: none;
-      outline: none;
-      background-color: transparent;
-      cursor: pointer;
-      font-family: "Poppins", sans-serif;
+  const isInRoomsPage = window.location.pathname.includes("rooms");
+  const isInBookingsPage = window.location.pathname.includes("bookings");
+  const isInStaffPage = window.location.pathname.includes("staff");
 
-      &:hover {
-        border-bottom: 1px solid ${colors.primary};
-        color: ${colors.primary};
-      }
-    }
-  }
-`
-const Filters = ({bookingData, setBookingData}) => {
-
-
-  const handleSort = (e) => {
+  const handleBookingsSort = (e) => {
     const sortValue = e.target.value;
-    let dataToSort = [...bookingData];
+    let dataToSort = [...data];
     let sortedData = [];
     switch (sortValue) {
       case "order-date":
         sortedData = dataToSort.sort((a, b) => new Date(a.order_date) - new Date(b.order_date));
-        setBookingData(sortedData);
+        setData(sortedData);
         break;
       case "guest":
         sortedData = dataToSort.sort((a, b) => a.guest.name > b.guest.name ? 1 : -1);
-        setBookingData(sortedData);
+        setData(sortedData);
         break;
       case "check-in":
         sortedData = dataToSort.sort((a, b) => new Date(a.check_in) - new Date(b.check_in));
-        setBookingData(sortedData);
+        setData(sortedData);
         break;
       case "check-out":
         sortedData = dataToSort.sort((a, b) => new Date(a.check_out) - new Date(b.check_out));
-        setBookingData(sortedData);
+        setData(sortedData);
+        break;
+    }
+  }
+
+  const handleEmployeesSort = (e) => {
+    const sortValue = e.target.value;
+    let dataToSort = [...data];
+    let sortedData = [];
+    switch (sortValue) {
+      case "start-date":
+        sortedData = dataToSort.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+        setData(sortedData);
+        break;
+      case "employee-name":
+        sortedData = dataToSort.sort((a, b) => a.fullName > b.fullName ? 1 : -1);
+        setData(sortedData);
         break;
     }
   }
@@ -56,17 +55,24 @@ const Filters = ({bookingData, setBookingData}) => {
   return (
   <StyledFilters>
     <div>
-        <button>All Bookings</button>
-        <button>Check In</button>
-        <button>Check Out</button>
-        <button>In Progress</button>
+        {buttons.map((button, index) => {
+            return <button key={index}>{button.label}</button>
+        })}
     </div>
-    <StyledSelect onChange={handleSort}>
-        <option value="order-date">Order Date</option>
-        <option value="guest">Guest</option>
-        <option value="check-in">Check In</option>
-        <option value="check-out">Check Out</option>
-    </StyledSelect>
+    {isInRoomsPage && <Button $primary>+ New Room</Button>} 
+    {isInBookingsPage && <StyledSelect onChange={handleBookingsSort}>
+                            <option value="order-date">Order Date</option>
+                            <option value="guest">Guest</option>
+                            <option value="check-in">Check In</option>
+                            <option value="check-out">Check Out</option>
+                        </StyledSelect>}
+    {isInStaffPage && <article>
+                        <Button $primary>+ New Employee</Button>
+                        <StyledSelect onChange={handleEmployeesSort}>
+                            <option value="start-date">Start Date</option>
+                            <option value="employee-name">Name</option>
+                        </StyledSelect>
+                      </article>}
   </StyledFilters>
   );
 };

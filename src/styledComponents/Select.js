@@ -9,4 +9,5 @@ export const StyledSelect = styled.select`
     font-weight: 600;
     border-radius: 12px;
     cursor: pointer;
+    margin-left: 15px;
 `

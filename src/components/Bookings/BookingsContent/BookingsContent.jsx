@@ -158,10 +158,17 @@ const BookingsContent = () => {
     {property: 'room_type', label: 'Room Type'},
     {property: 'status', label: 'Status'}
   ]
+
+  const filters = [
+    {label: 'All Bookings'},
+    {label: 'Check In'},
+    {label: 'Check Out'},
+    {label: 'In Progress'}
+  ]
   
   return (
   <StyledBookingsContainer>
-    <Filters setBookingData={setBookingData} bookingData={bookingData}/>
+    <Filters buttons={filters} setData={setBookingData} data={bookingData}/>
     <Table cols={cols} data={bookingData}/>
   </StyledBookingsContainer>
   );

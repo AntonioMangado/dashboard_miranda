@@ -3,11 +3,11 @@ import { StyledTable } from "../../styledComponents/StyledTable";
 
 const Table = ({cols, data}) => {
 
-  const displayRows = (row) => {
+  const displayRows = (row, i) => {
     return (
-      <tr>
-        {cols.map(col => 
-          <td>
+      <tr key={i}>
+        {cols.map((col, i) => 
+          <td key={i}>
             {col.display ? col.display(row) : row[col.property]}
           </td>
         )}
@@ -18,7 +18,7 @@ const Table = ({cols, data}) => {
   <StyledTable>
     <thead>
       <tr>
-        {cols.map(col => <th>{col.label}</th>)}
+        {cols.map((col, i) => <th key={i}>{col.label}</th>)}
       </tr>
     </thead>
     <tbody>

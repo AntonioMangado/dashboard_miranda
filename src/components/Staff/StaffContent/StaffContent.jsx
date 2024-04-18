@@ -1,6 +1,7 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Table from "../../Table";
+import Filters from "../../Filters";
 
 const staff = [
   {
@@ -105,9 +106,7 @@ const staff = [
   }
 ];
 
-const StaffContent = () => {
-
-  const StyledStaffContainer = styled.div`
+const StyledStaffContainer = styled.div`
       padding: 35px;
       overflow-y: auto;
 
@@ -116,7 +115,11 @@ const StaffContent = () => {
         height: 50px;
         border-radius: 50%;
       }
-  `
+`
+
+const StaffContent = () => {
+
+  const [staffData, setStaffData] = useState(staff.sort((a, b) => new Date(a.startDate) - new Date(b.startDate)));
 
   const cols = [
     {property: "photo", label: "Photo", display: (row) => <img src={row.photo} alt="employee"/>},
@@ -129,9 +132,16 @@ const StaffContent = () => {
     {property: "status", label: "Status"}
   ]
 
+  const filters = [
+    {label: "All Employess"},
+    {label: "Active Employees"},
+    {label: "Inactive Employees"}
+  ]
+
   return (
     <StyledStaffContainer>
-        <Table cols={cols} data={staff} />
+        <Filters buttons={filters} data={staffData} setData={setStaffData}/>
+        <Table cols={cols} data={staffData} />
     </StyledStaffContainer>
   );
 };

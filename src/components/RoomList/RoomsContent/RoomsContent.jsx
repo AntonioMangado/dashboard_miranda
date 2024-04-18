@@ -1,6 +1,7 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Table from "../../Table";
+import Filters from "../../Filters";
 const rooms = [
   {
     image: 'hotel-room.webp',
@@ -104,9 +105,7 @@ const rooms = [
   }
 ];
 
-const RoomsContent = () => {
-
-  const StyledRoomsContainer = styled.div`
+const StyledRoomsContainer = styled.div`
       padding: 35px;
       overflow-y: auto;
 
@@ -116,7 +115,13 @@ const RoomsContent = () => {
         object-fit: cover;
         border-radius: 8px;
       }
-  `
+`
+
+const RoomsContent = () => {
+
+  const [roomsData, setRoomsData] = useState(rooms);
+
+  
 
   const cols = [
     {label: 'Image', property: 'image', display: (row) => <img src={row.image} alt="room"/>},
@@ -129,8 +134,15 @@ const RoomsContent = () => {
     {label: 'Status', property: 'status'}
   ]
 
+  const filters = [
+    {label: 'All Rooms'},
+    {label: 'Available'},
+    {label: 'Booked'}
+  ]
+
   return (
   <StyledRoomsContainer>
+    <Filters buttons={filters} data={roomsData} setData={setRoomsData}/>
     <Table cols={cols} data={rooms} />
   </StyledRoomsContainer>
   );
