@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components"
 import Filters from "../../Filters"
 import Table from "../../Table"
+import { StyledLink } from "../../../styledComponents/Link"
 const bookings = [
   {
     "guest": {
@@ -148,9 +149,9 @@ const BookingsContent = () => {
 
   const cols = [
     {property: 'name', label: 'Name', display: (data) => (
-      <Link to={`/bookings/${data.booking_id}`}>
+      <StyledLink $nomargin to={`/bookings/${data.booking_id}`}>
         <p>{data.guest.name} {data.guest.surname}</p>
-      </Link>
+      </StyledLink>
     )},
     {property: 'order_date', label: 'Order Date'},
     {property: 'check_in', label: 'Check In'},
