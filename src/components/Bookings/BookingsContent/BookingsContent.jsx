@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
 import Filters from "../../Filters"
@@ -145,7 +145,13 @@ const StyledBookingsContainer = styled.div`
 const BookingsContent = () => {
 
 
-  const [bookingData, setBookingData] = useState(bookings)
+  const [bookingData, setBookingData] = useState([])
+
+  useEffect(() => {
+    setBookingData(bookings)
+  }, [])
+
+  console.log(bookingData)
 
   const cols = [
     {property: 'name', label: 'Name', display: (data) => (

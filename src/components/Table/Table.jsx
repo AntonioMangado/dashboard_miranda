@@ -3,6 +3,8 @@ import { StyledTable } from "../../styledComponents/StyledTable";
 
 const Table = ({cols, data}) => {
 
+  console.log(data)
+
   const displayRows = (row, i) => {
     return (
       <tr key={i}>

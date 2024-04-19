@@ -145,7 +145,7 @@ const StaffContent = () => {
 
   return (
     <StyledStaffContainer>
-        <Filters buttons={filters} data={staffData} setData={setStaffData}/>
+        <Filters buttons={filters} data={staffData} setData={setStaffData} staff={staff}/>
         <Table cols={cols} data={staffData} />
     </StyledStaffContainer>
   );

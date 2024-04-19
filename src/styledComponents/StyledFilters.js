@@ -20,5 +20,18 @@ export const StyledFilters = styled.div`
         color: ${colors.primary};
       }
     }
+
+    input {
+        padding: 10px 15px;
+        border: 1px solid ${colors.primary};
+        border-radius: 8px;
+        outline: none;
+        font-family: "Poppins", sans-serif;
+        margin-left: 20px;
+
+        &::placeholder {
+          color: #ccc;
+        }
+    }
   }
 `
