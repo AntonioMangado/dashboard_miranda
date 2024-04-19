@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components"
 import Filters from "../../Filters"
 import Table from "../../Table"
@@ -147,9 +148,9 @@ const BookingsContent = () => {
 
   const cols = [
     {property: 'name', label: 'Name', display: (data) => (
-      <a href={`/bookings/${data.booking_id}`}>
+      <Link to={`/bookings/${data.booking_id}`}>
         <p>{data.guest.name} {data.guest.surname}</p>
-      </a>
+      </Link>
     )},
     {property: 'order_date', label: 'Order Date'},
     {property: 'check_in', label: 'Check In'},

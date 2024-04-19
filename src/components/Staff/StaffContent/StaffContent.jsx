@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Table from "../../Table";
 import Filters from "../../Filters";
@@ -119,7 +119,12 @@ const StyledStaffContainer = styled.div`
 
 const StaffContent = () => {
 
-  const [staffData, setStaffData] = useState(staff.sort((a, b) => new Date(a.startDate) - new Date(b.startDate)));
+  const [staffData, setStaffData] = useState([]);
+  
+
+  useEffect(() => {
+    setStaffData(staff.sort((a, b) => new Date(a.startDate) - new Date(b.startDate)))
+  }, [])
 
   const cols = [
     {property: "photo", label: "Photo", display: (row) => <img src={row.photo} alt="employee"/>},
