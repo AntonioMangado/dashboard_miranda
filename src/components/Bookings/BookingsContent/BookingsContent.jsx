@@ -14,7 +14,7 @@ const bookings = [
     "check_out": "2024-05-05",
     "special_request": "Non-smoking room",
     "room_type": "Single Bed",
-    "status": "pending"
+    "status": "Check In"
   },
   {
     "guest": {
@@ -27,7 +27,7 @@ const bookings = [
     "check_out": "2024-06-15",
     "special_request": "Ocean view",
     "room_type": "Double Bed",
-    "status": "pending"
+    "status": "Check Out"
   },
   {
     "guest": {
@@ -40,7 +40,7 @@ const bookings = [
     "check_out": "2024-07-25",
     "special_request": "Early check-in",
     "room_type": "Double Superior",
-    "status": "pending"
+    "status": "Check Out"
   },
   {
     "guest": {
@@ -53,7 +53,7 @@ const bookings = [
     "check_out": "2024-08-10",
     "special_request": "King size bed",
     "room_type": "Suite",
-    "status": "pending"
+    "status": "In Progress"
   },
   {
     "guest": {
@@ -66,7 +66,7 @@ const bookings = [
     "check_out": "2024-09-20",
     "special_request": "High floor",
     "room_type": "Single Bed",
-    "status": "pending"
+    "status": "Check In"
   },
   {
     "guest": {
@@ -79,7 +79,7 @@ const bookings = [
     "check_out": "2024-10-15",
     "special_request": "Late check-out",
     "room_type": "Double Bed",
-    "status": "pending"
+    "status": "In Progress"
   },
   {
     "guest": {
@@ -92,7 +92,7 @@ const bookings = [
     "check_out": "2024-11-05",
     "special_request": "Pool view",
     "room_type": "Double Superior",
-    "status": "pending"
+    "status": "Check In"
   },
   {
     "guest": {
@@ -105,7 +105,7 @@ const bookings = [
     "check_out": "2024-12-15",
     "special_request": "Adjoining rooms",
     "room_type": "Suite",
-    "status": "pending"
+    "status": "In Progress"
   },
   {
     "guest": {
@@ -118,7 +118,7 @@ const bookings = [
     "check_out": "2025-01-25",
     "special_request": "Room with a balcony",
     "room_type": "Single Bed",
-    "status": "pending"
+    "status": "In Progress"
   },
   {
     "guest": {
@@ -131,7 +131,7 @@ const bookings = [
     "check_out": "2025-02-20",
     "special_request": "Child-friendly amenities",
     "room_type": "Double Bed",
-    "status": "pending"
+    "status": "Check Out"
   }
 ];
 
@@ -160,10 +160,10 @@ const BookingsContent = () => {
   ]
 
   const filters = [
-    {label: 'All Bookings'},
-    {label: 'Check In'},
-    {label: 'Check Out'},
-    {label: 'In Progress'}
+    {label: 'All Bookings', function: () => setBookingData(bookings)},
+    {label: 'Check In', function: () => setBookingData(bookings.filter(booking => booking.status === 'Check In'))},
+    {label: 'Check Out', function: () => setBookingData(bookings.filter(booking => booking.status === 'Check Out'))},
+    {label: 'In Progress' , function: () => setBookingData(bookings.filter(booking => booking.status === 'In Progress'))}
   ]
   
   return (

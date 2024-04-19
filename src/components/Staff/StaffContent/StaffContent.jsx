@@ -133,9 +133,9 @@ const StaffContent = () => {
   ]
 
   const filters = [
-    {label: "All Employess"},
-    {label: "Active Employees"},
-    {label: "Inactive Employees"}
+    {label: "All Employess", function: () => setStaffData(staff)},
+    {label: "Active Employees", function: () => setStaffData(staff.filter(employee => employee.status === "ACTIVE"))},
+    {label: "Inactive Employees", function: () => setStaffData(staff.filter(employee => employee.status === "INACTIVE"))}
   ]
 
   return (

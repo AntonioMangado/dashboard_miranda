@@ -4,7 +4,7 @@ import { faHotel, faBorderAll, faKey, faCalendar, faUser, faPuzzlePiece } from '
 import { StyledSideBar } from "../../styledComponents/StyledSideBar";
 import { Button } from "../../styledComponents/Button";
 import { LogoContainer } from "../../styledComponents/LogoContainer";
-import { Link } from "../../styledComponents/Link";
+import { StyledLink } from "../../styledComponents/Link";
 import { NavBar } from "../../styledComponents/NavBar";
 import { AdminCard } from "../../styledComponents/AdminCard";
 import { Footer } from "../../styledComponents/Footer";
@@ -27,11 +27,11 @@ const SideBar = ({setAuth}) => {
     </LogoContainer>
     <NavBar>
       <ul>
-        <Link><FontAwesomeIcon icon={faBorderAll} /><a href="/dashboard">Dashboard</a></Link>
-        <Link><FontAwesomeIcon icon={faCalendar} /><a href="/bookings">Bookings</a></Link>
-        <Link><FontAwesomeIcon icon={faKey} /><a href="/rooms">Rooms</a></Link>
-        <Link><FontAwesomeIcon icon={faPuzzlePiece} /><a href="/concierge">Contact</a></Link>
-        <Link><FontAwesomeIcon icon={faUser} /><a href="/staff">Staff</a></Link>
+        <StyledLink to="/dashboard"><FontAwesomeIcon icon={faBorderAll} />Dashboard</StyledLink>
+        <StyledLink to="/bookings"><FontAwesomeIcon icon={faCalendar} />Bookings</StyledLink>
+        <StyledLink to="/rooms"><FontAwesomeIcon icon={faKey} />Rooms</StyledLink>
+        <StyledLink to="/reviews"><FontAwesomeIcon icon={faPuzzlePiece} />Contact</StyledLink>
+        <StyledLink to="/staff"><FontAwesomeIcon icon={faUser} />Staff</StyledLink>
       </ul>
     </NavBar>
     <AdminCard>

@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { colors } from "../assets/theme";
+import { Link } from "react-router-dom";
 
-export const Link = styled.li`
+export const StyledLink = styled(Link)`
 
     list-style: none;
     color: ${colors.primary_text};
@@ -10,18 +11,9 @@ export const Link = styled.li`
     gap: 20px;
     align-items: center;
     margin-bottom: 30px;
+    text-decoration: none;
 
     &:hover {
         color: #5D5449;
-    }
-
-    a {
-        text-decoration: none;
-        font-size: 16px;
-        color: ${colors.primary_text};
-
-        &:hover {
-        color: #5D5449;
-    }
     }
 `

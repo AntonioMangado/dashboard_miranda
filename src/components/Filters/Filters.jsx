@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { StyledSelect } from "../../styledComponents/Select";
 import { StyledFilters } from "../../styledComponents/StyledFilters";
 import { Button } from "../../styledComponents/Button";
@@ -8,6 +8,24 @@ const Filters = ({data, setData, buttons}) => {
   const isInRoomsPage = window.location.pathname.includes("rooms");
   const isInBookingsPage = window.location.pathname.includes("bookings");
   const isInStaffPage = window.location.pathname.includes("staff");
+
+
+  const [bookingsInput, setBookingsInput] = useState("");
+
+  const handleChange = (e) => {
+    setBookingsInput(e.target.value);
+  };
+
+  useEffect(() => {
+    console.log(bookingsInput)
+    if (bookingsInput === "") {
+      setData(data);
+      return;
+    } else {
+      const filteredData = data.filter((item) => item.guest.name.toLowerCase().includes(bookingsInput.toLowerCase()));
+      setData(filteredData);
+    }
+  }, [bookingsInput]);
 
   const handleBookingsSort = (e) => {
     const sortValue = e.target.value;
@@ -55,16 +73,17 @@ const Filters = ({data, setData, buttons}) => {
   <StyledFilters>
     <div>
         {buttons.map((button, index) => {
-            return <button key={index}>{button.label}</button>
+            return <button onClick={button.function} key={index}>{button.label}</button>
         })}
+        {isInBookingsPage && <input onChange={handleChange} value={bookingsInput} type="text" name="guest-name" id="guest-name" />}
     </div>
     {isInRoomsPage && <Button $primary>+ New Room</Button>} 
-    {isInBookingsPage && <StyledSelect onChange={handleBookingsSort}>
+    {isInBookingsPage &&  <StyledSelect onChange={handleBookingsSort}>
                             <option value="order-date">Order Date</option>
                             <option value="guest">Guest</option>
                             <option value="check-in">Check In</option>
                             <option value="check-out">Check Out</option>
-                        </StyledSelect>}
+                          </StyledSelect>}
     {isInStaffPage && <article>
                         <Button $primary>+ New Employee</Button>
                         <StyledSelect onChange={handleEmployeesSort}>
