@@ -168,7 +168,7 @@ const BookingsContent = () => {
   
   return (
   <StyledBookingsContainer>
-    <Filters buttons={filters} setData={setBookingData} data={bookingData}/>
+    <Filters buttons={filters} setData={setBookingData} data={bookingData} bookings={bookings}/>
     <Table cols={cols} data={bookingData}/>
   </StyledBookingsContainer>
   );

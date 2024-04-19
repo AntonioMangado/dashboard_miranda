@@ -25,7 +25,7 @@ export const StyledLogin = styled.section`
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        right: 200px;
+        right: 250px;
         background-color: white;
         display: flex;
         flex-direction: column;
@@ -50,7 +50,7 @@ export const StyledLogin = styled.section`
 
         input {
             margin-bottom: 20px;
-            padding: 7px 10px;
+            padding: 10px 10px;
             border: none;
             outline: none;
             border-radius: 8px;

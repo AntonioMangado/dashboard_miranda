@@ -3,7 +3,7 @@ import { StyledSelect } from "../../styledComponents/Select";
 import { StyledFilters } from "../../styledComponents/StyledFilters";
 import { Button } from "../../styledComponents/Button";
 
-const Filters = ({data, setData, buttons}) => {
+const Filters = ({data, setData, bookings, buttons}) => {
 
   const isInRoomsPage = window.location.pathname.includes("rooms");
   const isInBookingsPage = window.location.pathname.includes("bookings");
@@ -19,10 +19,10 @@ const Filters = ({data, setData, buttons}) => {
   useEffect(() => {
     console.log(bookingsInput)
     if (bookingsInput === "") {
-      setData(data);
+      setData(bookings);
       return;
     } else {
-      const filteredData = data.filter((item) => item.guest.name.toLowerCase().includes(bookingsInput.toLowerCase()));
+      const filteredData = bookings.filter((item) => item.guest.name.toLowerCase().includes(bookingsInput.toLowerCase()));
       setData(filteredData);
     }
   }, [bookingsInput]);
