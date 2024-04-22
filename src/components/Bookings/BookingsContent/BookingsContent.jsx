@@ -151,8 +151,6 @@ const BookingsContent = () => {
     setBookingData(bookings)
   }, [])
 
-  console.log(bookingData)
-
   const cols = [
     {property: 'name', label: 'Name', display: (data) => (
       <StyledLink $nomargin to={`/bookings/${data.booking_id}`}>
