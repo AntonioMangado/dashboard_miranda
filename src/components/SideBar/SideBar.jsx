@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHotel, faBorderAll, faKey, faCalendar, faUser, faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
+import { useContext } from 'react';
 import { StyledSideBar } from "../../styledComponents/StyledSideBar";
 import { Button } from "../../styledComponents/Button";
 import { LogoContainer } from "../../styledComponents/LogoContainer";
@@ -8,14 +9,12 @@ import { StyledLink } from "../../styledComponents/Link";
 import { NavBar } from "../../styledComponents/NavBar";
 import { AdminCard } from "../../styledComponents/AdminCard";
 import { Footer } from "../../styledComponents/Footer";
+import { AuthContext } from "../../context/AuthContext";
 
 
-const SideBar = ({setAuth}) => {
+const SideBar = () => {
 
-  const handleLogout = () => {
-    setAuth(false);
-    localStorage.removeItem('auth');
-  }
+  const { state, dispatch } = useContext(AuthContext)
 
   return (
   <StyledSideBar>
@@ -37,10 +36,10 @@ const SideBar = ({setAuth}) => {
     <AdminCard>
       <img src="/cat-avatar.jpg" alt="admin's profile picture" />
       <div>
-        <p>Antonio Mangado</p>
+        <p>{state.user}</p>
         <p>miemail@gmail.com</p>
       </div>
-      <Button $secondary $wide onClick={handleLogout}>EDIT</Button>
+      <Button $secondary $wide>EDIT</Button>
     </AdminCard>
     <Footer>
       <div>

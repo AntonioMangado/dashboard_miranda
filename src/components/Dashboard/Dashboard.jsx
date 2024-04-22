@@ -1,10 +1,9 @@
-import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed,
-  faCalendarCheck, faArrowRightToBracket, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faBed, faCalendarCheck, faArrowRightToBracket, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { DashboardContent } from "../../styledComponents/DashboardContent";
 import { GridItem } from "../../styledComponents/GridItem";
 import NotificationBar from "../NotificationBar";
+
 
 const Dashboard = () => {
 

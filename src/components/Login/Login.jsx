@@ -1,24 +1,24 @@
-import React from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { StyledLogin } from "../../styledComponents/StyledLogin";
 import { Button } from "../../styledComponents/Button";
+import { AuthContext } from "../../context/AuthContext";
 
-const Login = ({setAuth}) => {
+const Login = () => {
 
   const navigate = useNavigate();
+  const { dispatch } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.username.value);
-    console.log(e.target.password.value);
-
-    if (e.target.username.value !== 'admin' || e.target.password.value !== 'admin') {
+    if (e.target.username.value === 'admin' && e.target.password.value === 'admin') {
+      dispatch({type: 'LOGIN', payload: e.target.username.value})
+      localStorage.setItem('auth', true);
+      localStorage.setItem('user', e.target.username.value);
+      navigate('/dashboard');
+    } else {
       alert('Invalid credentials');
       return;
-    } else {
-      setAuth(true);
-      localStorage.setItem('auth', true);
-      navigate('/dashboard');
     }
   }
 
