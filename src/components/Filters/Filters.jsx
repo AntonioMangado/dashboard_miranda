@@ -3,7 +3,7 @@ import { StyledSelect } from "../../styledComponents/Select";
 import { StyledFilters } from "../../styledComponents/StyledFilters";
 import { Button } from "../../styledComponents/Button";
 
-const Filters = ({data, setData, bookings, buttons}) => {
+const Filters = ({data, setData, bookings, staff, buttons}) => {
 
   const isInRoomsPage = window.location.pathname.includes("rooms");
   const isInBookingsPage = window.location.pathname.includes("bookings");
@@ -11,13 +11,17 @@ const Filters = ({data, setData, bookings, buttons}) => {
 
 
   const [bookingsInput, setBookingsInput] = useState("");
+  const [staffInput, setStaffInput] = useState("");
 
-  const handleChange = (e) => {
+  const handleBookingsChange = (e) => {
     setBookingsInput(e.target.value);
   };
 
+  const handleStaffChange = (e) => {
+    setStaffInput(e.target.value);
+  };
+
   useEffect(() => {
-    console.log(bookingsInput)
     if (bookingsInput === "") {
       setData(bookings);
       return;
@@ -26,6 +30,16 @@ const Filters = ({data, setData, bookings, buttons}) => {
       setData(filteredData);
     }
   }, [bookingsInput]);
+
+  useEffect(() => {
+    if (staffInput === "") {
+      setData(staff);
+      return;
+    } else {
+      const filteredData = staff.filter((item) => item.fullName.toLowerCase().includes(staffInput.toLowerCase()));
+      setData(filteredData);
+    }
+  }, [staffInput]);
 
   const handleBookingsSort = (e) => {
     const sortValue = e.target.value;
@@ -75,7 +89,8 @@ const Filters = ({data, setData, bookings, buttons}) => {
         {buttons.map((button, index) => {
             return <button onClick={button.function} key={index}>{button.label}</button>
         })}
-        {isInBookingsPage && <input onChange={handleChange} value={bookingsInput} type="text" name="guest-name" id="guest-name" />}
+        {isInBookingsPage && <input onChange={handleBookingsChange} value={bookingsInput} type="text" name="guest-name" id="guest-name"  placeholder="Guest name"/>}
+        {isInStaffPage && <input onChange={handleStaffChange} value={staffInput} type="text" name="staff-name" id="staff-name"  placeholder="Staff member"/>}
     </div>
     {isInRoomsPage && <Button $primary>+ New Room</Button>} 
     {isInBookingsPage &&  <StyledSelect onChange={handleBookingsSort}>
