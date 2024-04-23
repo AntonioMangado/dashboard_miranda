@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Table from "../../Table";
 import Filters from "../../Filters";
-import { staff } from "../../../../data/staff";
+import { getUserData, getUsersData, getUsersError, getUsersStatus } from "../../../features/users/usersSlice";
+import { getStaffThunk } from "../../../features/users/usersThunk";
  
 
 const StyledStaffContainer = styled.div`
@@ -18,12 +20,30 @@ const StyledStaffContainer = styled.div`
 
 const StaffContent = () => {
 
+  const dispatch = useDispatch();
+  const staff = useSelector(getUsersData);
+  const status = useSelector(getUsersStatus);
+  const error = useSelector(getUsersError);
   const [staffData, setStaffData] = useState([]);
-  
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setStaffData(staff.sort((a, b) => new Date(a.startDate) - new Date(b.startDate)))
-  }, [])
+    if (status === "idle") {
+      dispatch(getStaffThunk());
+    } else if (status === "pending") {
+      setLoading(true);
+    } else if (status === "fulfilled") {
+      let data = [];
+      staff.forEach(member => {
+        data.push(member)
+      })
+      setStaffData(data);
+      setLoading(false);
+    } else if (status === "rejected") {
+      console.log(error);
+      setLoading(false);
+    }
+  }, [status])
 
   const cols = [
     {property: "photo", label: "Photo", display: (row) => <img src={row.photo} alt="employee"/>},
@@ -37,15 +57,21 @@ const StaffContent = () => {
   ]
 
   const filters = [
-    {label: "All Employess", function: () => setStaffData(staff)},
-    {label: "Active Employees", function: () => setStaffData(staff.filter(employee => employee.status === "ACTIVE"))},
-    {label: "Inactive Employees", function: () => setStaffData(staff.filter(employee => employee.status === "INACTIVE"))}
+    {label: "All Employess", action: () => setStaffData(staff)},
+    {label: "Active Employees", action: () => setStaffData(staff.filter(employee => employee.status === "ACTIVE"))},
+    {label: "Inactive Employees", action: () => setStaffData(staff.filter(employee => employee.status === "INACTIVE"))}
   ]
 
   return (
     <StyledStaffContainer>
-        <Filters buttons={filters} data={staffData} setData={setStaffData} staff={staff}/>
-        <Table cols={cols} data={staffData} />
+      {loading ?
+        <p>Loading...</p> 
+        :
+        <>
+          <Filters buttons={filters} data={staffData} setData={setStaffData} staff={staff}/>
+          <Table cols={cols} data={staffData} />
+        </> 
+      }
     </StyledStaffContainer>
   );
 };

@@ -3,7 +3,7 @@ import { StyledSelect } from "../../styledComponents/Select";
 import { StyledFilters } from "../../styledComponents/StyledFilters";
 import { Button } from "../../styledComponents/Button";
 
-const Filters = ({data, setData, bookings, staff, buttons}) => {
+const Filters = ({data, setData, bookings, staff, rooms, buttons}) => {
 
   const isInRoomsPage = window.location.pathname.includes("rooms");
   const isInBookingsPage = window.location.pathname.includes("bookings");
@@ -23,21 +23,21 @@ const Filters = ({data, setData, bookings, staff, buttons}) => {
 
   useEffect(() => {
     if (bookingsInput === "") {
-      setData(bookings);
+      setData(bookings || staff || rooms);
     } else {
       const filteredData = bookings.filter((item) => item.guest.name.toLowerCase().includes(bookingsInput.toLowerCase()));
       setData(filteredData);
     }
   }, [bookingsInput]);
 
-  // useEffect(() => {
-  //   if (staffInput === "") {
-  //     setData(staff);
-  //   } else {
-  //     const filteredData = staff.filter((item) => item.fullName.toLowerCase().includes(staffInput.toLowerCase()));
-  //     setData(filteredData);
-  //   }
-  // }, [staffInput]);
+  useEffect(() => {
+    if (staffInput === "") {
+      setData(staff || bookings || rooms);
+    } else {
+      const filteredData = staff.filter((item) => item.fullName.toLowerCase().includes(staffInput.toLowerCase()));
+      setData(filteredData);
+    }
+  }, [staffInput]);
 
   const handleBookingsSort = (e) => {
     const sortValue = e.target.value;

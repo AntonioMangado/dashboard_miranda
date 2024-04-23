@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Table from "../../Table";
 import Filters from "../../Filters";
-import { rooms } from "../../../../data/rooms";
+import { getRoomsData, getRoomsStatus, getRoomsError } from "../../../features/rooms/roomsSlice";
+import { getRoomsThunk } from "../../../features/rooms/roomsThunk";
 
 const StyledRoomsContainer = styled.div`
       padding: 35px;
@@ -18,9 +20,26 @@ const StyledRoomsContainer = styled.div`
 
 const RoomsContent = () => {
 
+  const dispatch = useDispatch();
+  const rooms = useSelector(getRoomsData);
+  const status = useSelector(getRoomsStatus);
+  const error = useSelector(getRoomsError);
   const [roomsData, setRoomsData] = useState(rooms);
-
+  const [loading, setLoading] = useState(true)
   
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(getRoomsThunk());
+    } else if (status === "pending") {
+      setLoading(true);
+    } else if (status === "fulfilled") {
+      setRoomsData(rooms);
+      setLoading(false);
+    } else if (status === "rejected") {
+      console.log(error);
+      setLoading(false);
+    }
+  }, [status])
 
   const cols = [
     {label: 'Image', property: 'image', display: (row) => <img src={row.image} alt="room"/>},
@@ -34,15 +53,21 @@ const RoomsContent = () => {
   ]
 
   const filters = [
-    {label: 'All Rooms'},
-    {label: 'Available'},
-    {label: 'Booked'}
+    {label: 'All Rooms', action: () => setRoomsData(rooms)},
+    {label: 'Available', action: () => setRoomsData(rooms.filter(room => room.status === 'available'))},
+    {label: 'Booked', action: () => setRoomsData(rooms.filter(room => room.status === 'booked'))},
   ]
 
   return (
   <StyledRoomsContainer>
-    <Filters buttons={filters} data={roomsData} setData={setRoomsData}/>
-    <Table cols={cols} data={rooms} />
+    {loading ?
+      <p>Loading...</p> 
+      :
+      <>
+        <Filters buttons={filters} data={roomsData} setData={setRoomsData} rooms={rooms}/>
+        <Table cols={cols} data={roomsData} />
+      </> 
+    }
   </StyledRoomsContainer>
   );
 };
