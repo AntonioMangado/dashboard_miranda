@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components"
 import Filters from "../../Filters"
 import Table from "../../Table"
 import { StyledLink } from "../../../styledComponents/Link"
-import { bookings } from "../../../../data/bookings";
+import { getBookingsData, getBookingsStatus, getBookingsError } from "../../../features/bookings/bookingsSlice";
+import { getBookingsThunk } from "../../../features/bookings/bookingsThunk";
 
 const StyledBookingsContainer = styled.div`
   padding: 35px;
@@ -13,12 +14,30 @@ const StyledBookingsContainer = styled.div`
 
 const BookingsContent = () => {
 
-
+  const dispatch = useDispatch()
+  const bookings = useSelector(getBookingsData)
+  const status = useSelector(getBookingsStatus)
+  const error = useSelector(getBookingsError)
   const [bookingData, setBookingData] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setBookingData(bookings)
-  }, [])
+    if (status === "idle") {
+      dispatch(getBookingsThunk());
+    } else if (status === "pending") {
+      setLoading(true);
+    } else if (status === "fulfilled") {
+      let data = [];
+      bookings.forEach(booking => {
+        data.push(booking)
+      })
+      setBookingData(data);
+      setLoading(false);
+    } else if (status === "rejected") {
+      console.log(error);
+      setLoading(false);
+    }
+  }, [status])
 
   const cols = [
     {property: 'name', label: 'Name', display: (data) => (
@@ -35,16 +54,22 @@ const BookingsContent = () => {
   ]
 
   const filters = [
-    {label: 'All Bookings', function: () => setBookingData(bookings)},
-    {label: 'Check In', function: () => setBookingData(bookings.filter(booking => booking.status === 'Check In'))},
-    {label: 'Check Out', function: () => setBookingData(bookings.filter(booking => booking.status === 'Check Out'))},
-    {label: 'In Progress' , function: () => setBookingData(bookings.filter(booking => booking.status === 'In Progress'))}
+    {label: 'All Bookings', action: () => setBookingData(bookings)},
+    {label: 'Check In', action: () => setBookingData(bookings.filter(booking => booking.status === 'Check In'))},
+    {label: 'Check Out', action: () => setBookingData(bookings.filter(booking => booking.status === 'Check Out'))},
+    {label: 'In Progress' , action: () => setBookingData(bookings.filter(booking => booking.status === 'In Progress'))}
   ]
   
   return (
   <StyledBookingsContainer>
-    <Filters buttons={filters} setData={setBookingData} data={bookingData} bookings={bookings}/>
-    <Table cols={cols} data={bookingData}/>
+    {loading ? 
+      <p>Loading...</p> 
+      :
+      <>
+        <Filters buttons={filters} setData={setBookingData} data={bookingData} bookings={bookings}/>
+        <Table cols={cols} data={bookingData}/>
+      </> 
+      }
   </StyledBookingsContainer>
   );
 };

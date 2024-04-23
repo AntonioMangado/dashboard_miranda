@@ -17,16 +17,15 @@ import SideBar from "./components/SideBar"
 
 export default function App() {
 
-  const [auth, setAuth] = useState(localStorage.getItem('auth') || false);
   const [state, dispatch] = useReducer(reducer, initialState);
   
   return (
     <>
     <AuthContext.Provider value={{ state, dispatch }}>
       <BrowserRouter>
-        {state.isAuth ? <SideBar setAuth={setAuth}/> : <></>}
+        {state.isAuth ? <SideBar/> : <></>}
         <Routes>
-          <Route path="/login" element={<Login setAuth={setAuth}/>} />
+          <Route path="/login" element={<Login/>} />
           <Route path="/" element={
             <PrivateRoute  >
               <Dashboard />
