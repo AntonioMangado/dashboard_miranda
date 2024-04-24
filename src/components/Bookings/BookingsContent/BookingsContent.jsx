@@ -69,7 +69,7 @@ const BookingsContent = () => {
         <Filters buttons={filters} setData={setBookingData} data={bookingData} bookings={bookings}/>
         <Table cols={cols} data={bookingData}/>
       </> 
-      }
+    }
   </StyledBookingsContainer>
   );
 };

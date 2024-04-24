@@ -3,7 +3,7 @@ import { StyledSelect } from "../../styledComponents/Select";
 import { StyledFilters } from "../../styledComponents/StyledFilters";
 import { Button } from "../../styledComponents/Button";
 
-const Filters = ({data, setData, bookings, staff, rooms, buttons}) => {
+const Filters = ({data, setData, bookings, staff, rooms, reviews, buttons}) => {
 
   const isInRoomsPage = window.location.pathname.includes("rooms");
   const isInBookingsPage = window.location.pathname.includes("bookings");
@@ -23,7 +23,7 @@ const Filters = ({data, setData, bookings, staff, rooms, buttons}) => {
 
   useEffect(() => {
     if (bookingsInput === "") {
-      setData(bookings || staff || rooms);
+      setData(bookings || staff || rooms || reviews);
     } else {
       const filteredData = bookings.filter((item) => item.guest.name.toLowerCase().includes(bookingsInput.toLowerCase()));
       setData(filteredData);
@@ -32,7 +32,7 @@ const Filters = ({data, setData, bookings, staff, rooms, buttons}) => {
 
   useEffect(() => {
     if (staffInput === "") {
-      setData(staff || bookings || rooms);
+      setData(staff || bookings || rooms || reviews);
     } else {
       const filteredData = staff.filter((item) => item.fullName.toLowerCase().includes(staffInput.toLowerCase()));
       setData(filteredData);

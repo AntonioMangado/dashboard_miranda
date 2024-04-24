@@ -24,7 +24,7 @@ const RoomsContent = () => {
   const rooms = useSelector(getRoomsData);
   const status = useSelector(getRoomsStatus);
   const error = useSelector(getRoomsError);
-  const [roomsData, setRoomsData] = useState(rooms);
+  const [roomsData, setRoomsData] = useState(rooms || []);
   const [loading, setLoading] = useState(true)
   
   useEffect(() => {
