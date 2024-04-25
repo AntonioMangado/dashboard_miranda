@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getRoomsThunk } from './roomsThunk';
+import { getRoomsThunk, getRoomThunk } from './roomsThunk';
 
 export const roomsSlice = createSlice({
     name: "rooms",
@@ -14,17 +14,28 @@ export const roomsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getRoomsThunk.pending, (state) => {
-                state.status = "pending";
-            })
             .addCase(getRoomsThunk.fulfilled, (state, action) => {
                 state.status = "fulfilled";
                 state.data.rooms = action.payload;
             })
+            .addCase(getRoomThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.room = action.payload;
+            })
+            .addCase(getRoomsThunk.pending, (state) => {
+                state.status = "pending";
+            })
             .addCase(getRoomsThunk.rejected, (state, action) => {
                 state.status = "rejected";
                 state.error = action.error.message;
-            });
+            })
+            .addCase(getRoomThunk.pending, (state) => {
+                state.status = "pending";
+            })
+            .addCase(getRoomThunk.rejected, (state, action) => {
+                state.status = "rejected";
+                state.error = action.error.message;
+            })
     }
 });
 

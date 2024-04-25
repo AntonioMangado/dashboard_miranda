@@ -1,27 +1,186 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getBookingData, getBookingsStatus, getBookingsError } from "../../../features/bookings/bookingsSlice";
+import styled, {css} from "styled-components";
+import { Button } from "../../../styledComponents/Button";
+import { getBookingData } from "../../../features/bookings/bookingsSlice";
+import { getRoomData } from "../../../features/rooms/roomsSlice";
 import { getBookingThunk } from "../../../features/bookings/bookingsThunk";
+import { getRoomThunk } from "../../../features/rooms/roomsThunk";
+import { colors } from "../../../assets/theme"
+
+const StyledContainer = styled.section`
+  padding: 35px;
+  overflow-x: auto;
+  
+`
+
+const StyledGuestDetail = styled.article`
+  height: 100%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 40px;
+  display: flex;
+  gap: 35px;
+
+   > div {
+    width: 50%;
+
+    > p {
+      margin-bottom: 25px;
+    }
+
+    &:first-of-type{
+      
+      h3 {
+        font-size: 30px;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      h4 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 15px;
+
+        span {
+          font-size: 14px;
+          font-weight: 400;
+          color: ${colors.primary_text};
+        }
+      }
+
+      > div {
+        background-color: white;
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        gap: 25px;
+
+        &:first-of-type {
+          border-bottom: 1px solid #cecccc;
+        }
+
+        &:last-of-type {
+          flex-direction: column;
+          gap: 8px;
+
+          > div {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            gap: 15px;
+          }
+        }
+
+        div {
+          display: inline-block;
+          width: 40%;
+          font-weight: 600;
+        }
+      }
+
+      > p {
+
+        &:first-of-type {
+          margin-bottom: 15px;
+        }
+      }
+    }
+
+    &:last-of-type{
+      background-color: #cecccc;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+
+      div {
+        width: 100%;
+      }
+    }
+   }
+`
+
+const StyledP = styled.p`
+  ${props => props.$title && css`
+        font-size: 14px;
+        font-weight: 400;
+        color: ${colors.primary_text};
+  `};
+`
+ 
 
 const BookingDetailsContent = ({id}) => {
 
   const dispatch = useDispatch()
   const booking = useSelector(getBookingData)
-  const status = useSelector(getBookingsStatus)
-  const error = useSelector(getBookingsError)
+  const room = useSelector(getRoomData)
   const [loading, setLoading] = useState(true)
 
   const initialFetch = async () => {
     await dispatch(getBookingThunk(id)).unwrap();
+  }
+
+  const fetchRoom = async () => {
+    await dispatch(getRoomThunk(booking?.roomID)).unwrap();
     setLoading(false);
   }
 
   useEffect(() => {
     initialFetch()
+    fetchRoom()
   }, [])
 
-
-  return <div>{loading ? <p>Loading...</p> : <>{booking.guest.name} {booking.guest.surname} {booking.booking_id}</>}</div>;
+  return (
+  <StyledContainer>
+    {loading 
+      ? <p>Loading...</p> 
+      : <StyledGuestDetail>
+          <div>
+            <h3>{booking.guest.name} {booking.guest.surname}</h3>
+            <StyledP $title>Booking ID: {booking.booking_id}</StyledP>
+            <div>
+              <div>
+                <StyledP $title>Check In</StyledP>
+                {booking.check_in}
+              </div>
+              <div>
+                <StyledP $title>Check out</StyledP>
+                {booking.check_out}
+              </div>
+            </div>
+            <div>
+              <div>
+                <StyledP $title>Room Info</StyledP>
+                <h4>{room?.roomType} - {booking.roomID}</h4>
+              </div>
+              <div>
+                <StyledP $title>Room Price</StyledP>
+                <h4>${room?.offerPrice}<span>/night</span></h4>
+              </div>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio officia quas corrupti ad deserunt veritatis nam eveniet pariatur impedit voluptate? Debitis sit reiciendis amet voluptatibus harum eius laboriosam a eaque!</p>
+            <div>
+              <StyledP $title>Amenities</StyledP>
+              <div>{room?.amenities 
+                      ? room?.amenities.map(((amenity, i) => <Button $success key={i}>{amenity}</Button>))
+                      : <></>}
+              </div>
+            </div>            
+          </div>
+          <div>
+            <div>
+              <p>Room type: {room?.roomType}</p>
+              <p>Room description: Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam eius eum eveniet impedit officiis fugit temporibus, exercitationem in, ea iure natus architecto aliquid? Repudiandae sapiente odit inventore impedit excepturi culpa.</p>
+              <p>Room Status: {room?.status}</p>
+            </div>
+          </div>
+        </StyledGuestDetail>
+    }
+  </StyledContainer>
+  );
 };
 
 export default BookingDetailsContent;

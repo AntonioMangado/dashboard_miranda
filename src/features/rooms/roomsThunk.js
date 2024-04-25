@@ -6,3 +6,8 @@ export const getRoomsThunk = createAsyncThunk("rooms/getRooms", async () => {
     const request = await delayData(rooms);
     return request;
 })
+
+export const getRoomThunk = createAsyncThunk("rooms/getRoom", async (id) => {
+    const request = await delayData(rooms.find(room => room.roomID == id));
+    return request;
+})

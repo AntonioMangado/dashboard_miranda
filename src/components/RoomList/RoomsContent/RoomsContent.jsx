@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Table from "../../Table";
 import Filters from "../../Filters";
+import { Button } from "../../../styledComponents/Button";
 import { getRoomsData, getRoomsStatus, getRoomsError } from "../../../features/rooms/roomsSlice";
 import { getRoomsThunk } from "../../../features/rooms/roomsThunk";
 
@@ -49,7 +50,13 @@ const RoomsContent = () => {
     {label: 'Amenities', property: 'amenities', display: (row) => row.amenities.join(', ')},
     {label: 'Price', property: 'price', display: (row) => `$${row.price}/night`},
     {label: 'Offer Price', property: 'offerPrice', display: (row) => `$${row.price}/night`},
-    {label: 'Status', property: 'status'}
+    {label: 'Status', property: 'status', display: (data) => {
+      if (data.status === 'available') {
+        return <Button $success>Available</Button>
+      } else {
+        return <Button $error>Booked</Button>
+      } 
+    }}
   ]
 
   const filters = [

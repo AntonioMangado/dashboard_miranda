@@ -32,6 +32,7 @@ const StyledDialog = styled.dialog`
     background-color: transparent;
     font-weight: 600;
     font-size: 18px;
+    cursor: pointer;
   }
 `
 

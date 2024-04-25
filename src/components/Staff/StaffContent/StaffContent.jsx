@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Table from "../../Table";
 import Filters from "../../Filters";
+import { Button } from "../../../styledComponents/Button";
 import { getUserData, getUsersData, getUsersError, getUsersStatus } from "../../../features/users/usersSlice";
 import { getStaffThunk } from "../../../features/users/usersThunk";
  
@@ -53,7 +54,14 @@ const StaffContent = () => {
     {property: "startDate", label: "Start Date"},
     {property: "description", label: "Description"},
     {property: "contact", label: "Contact"},
-    {property: "status", label: "Status"}
+    {property: "status", label: "Status", display: (data) => {
+      if (data.status === "ACTIVE") {
+        return <Button $success>Active</Button>
+      } else {
+        return <Button $error>Inactive</Button>
+      }
+    
+    }}
   ]
 
   const filters = [
