@@ -22,11 +22,24 @@ const StyledGuestDetail = styled.article`
   display: flex;
   gap: 35px;
 
+    h4 {
+          font-size: 24px;
+          font-weight: 600;
+          margin-bottom: 15px;
+
+          span {
+            font-size: 14px;
+            font-weight: 400;
+            color: ${colors.primary_text};
+          }
+        }
+
    > div {
     width: 50%;
 
     > p {
       margin-bottom: 25px;
+      font-size: 14px;
     }
 
     &:first-of-type{
@@ -37,17 +50,7 @@ const StyledGuestDetail = styled.article`
         margin-bottom: 15px;
       }
 
-      h4 {
-        font-size: 24px;
-        font-weight: 600;
-        margin-bottom: 15px;
-
-        span {
-          font-size: 14px;
-          font-weight: 400;
-          color: ${colors.primary_text};
-        }
-      }
+      
 
       > div {
         background-color: white;
@@ -95,9 +98,24 @@ const StyledGuestDetail = styled.article`
       display: flex;
       flex-direction: column;
       justify-content: end;
+      position: relative;
+      overflow: hidden;
 
-      div {
+      > div {
         width: 100%;
+        background: linear-gradient(#00000000, #00000080);
+        color: white;
+        padding: 25px;
+        
+        p {
+          font-size: 14px;
+        }
+
+        > div {
+          background-color: green;
+          
+          
+        }
       }
     }
    }
@@ -110,6 +128,24 @@ const StyledP = styled.p`
         color: ${colors.primary_text};
   `};
 `
+
+const Ribbon = styled.div`
+        text-align: center;
+        position: absolute;
+        top: 26px;
+        right: -49px;
+        padding: 10px 64px;
+        text-transform: uppercase;
+        transform: rotate(45deg);
+
+        ${props => props.$success && css`
+          background-color: ${colors.success};
+        `};
+
+        ${props => props.$danger && css`
+          background-color: ${colors.danger};
+        `}; 
+`
  
 
 const BookingDetailsContent = ({id}) => {
@@ -117,25 +153,27 @@ const BookingDetailsContent = ({id}) => {
   const dispatch = useDispatch()
   const booking = useSelector(getBookingData)
   const room = useSelector(getRoomData)
+  const [fetched, setFetched] = useState(false)
   const [loading, setLoading] = useState(true)
 
   const initialFetch = async () => {
     await dispatch(getBookingThunk(id)).unwrap();
+    setLoading(false);
   }
 
   const fetchRoom = async () => {
     await dispatch(getRoomThunk(booking?.roomID)).unwrap();
-    setLoading(false);
+    setFetched(true)
   }
 
   useEffect(() => {
     initialFetch()
     fetchRoom()
-  }, [])
+  }, [loading])
 
   return (
   <StyledContainer>
-    {loading 
+    {!fetched 
       ? <p>Loading...</p> 
       : <StyledGuestDetail>
           <div>
@@ -172,9 +210,12 @@ const BookingDetailsContent = ({id}) => {
           </div>
           <div>
             <div>
-              <p>Room type: {room?.roomType}</p>
-              <p>Room description: Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam eius eum eveniet impedit officiis fugit temporibus, exercitationem in, ea iure natus architecto aliquid? Repudiandae sapiente odit inventore impedit excepturi culpa.</p>
-              <p>Room Status: {room?.status}</p>
+              <h4>{room?.roomType}</h4>
+              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam eius eum eveniet impedit officiis fugit temporibus, exercitationem in, ea iure natus architecto aliquid? Repudiandae sapiente odit inventore impedit excepturi culpa.</p>
+              <div>{room?.status == "available"
+                      ? <Ribbon $success>available</Ribbon>
+                      : <Ribbon $danger>booked</Ribbon>}
+              </div>
             </div>
           </div>
         </StyledGuestDetail>
