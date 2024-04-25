@@ -47,7 +47,7 @@ export const bookings = [
       "order_date": "2024-04-20",
       "check_in": "2024-08-05",
       "check_out": "2024-08-10",
-      "special_request": "King size bed",
+      "special_request": null,
       "room_type": "Suite",
       "status": "In Progress"
     },

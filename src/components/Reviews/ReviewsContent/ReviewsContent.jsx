@@ -34,11 +34,19 @@ const ReviewsContent = () => {
     }
   }, [status])
 
+  const ratingToStars = (rating) => {
+    let stars = [];
+    for (let i = 0; i < rating; i++) {
+      stars.push(<span>★</span>)
+    }
+    return stars;
+  }
+
   const cols = [
     {label: 'Order ID', property: 'orderId'},
     {label: 'Date', property: 'date'},
     {label: 'Customer', property: 'customer'},
-    {label: 'Comment', property: 'comment', display: (row) => <><p>{row.rating}</p><p>{row.comment}</p></>},
+    {label: 'Comment', property: 'comment', display: (row, i) => <article key={i}><p>{ratingToStars(row.rating)}</p><p>{row.comment}</p></article>},
   ]
 
   const filters = [

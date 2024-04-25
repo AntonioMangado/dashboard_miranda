@@ -14,6 +14,7 @@ const StyledReview = styled.article`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin-bottom: 20px;
 
     & > div {
       &:last-of-type {

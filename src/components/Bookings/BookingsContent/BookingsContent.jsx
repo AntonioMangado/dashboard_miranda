@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components"
 import Filters from "../../Filters"
@@ -6,11 +6,48 @@ import Table from "../../Table"
 import { StyledLink } from "../../../styledComponents/Link"
 import { getBookingsData, getBookingsStatus, getBookingsError } from "../../../features/bookings/bookingsSlice";
 import { getBookingsThunk } from "../../../features/bookings/bookingsThunk";
+import { Button } from "../../../styledComponents/Button";
 
 const StyledBookingsContainer = styled.div`
   padding: 35px;
   overflow-y: auto;
+  position: relative;
 `
+
+const StyledDialog = styled.dialog`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 50px;
+  border: none;
+  border-radius: 20px;
+
+  button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 18px;
+  }
+`
+
+const StyledBackdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);  // Semi-transparent black
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  z-index: 999;  // Ensure it's above other content
+`;
+
 
 const BookingsContent = () => {
 
@@ -20,6 +57,7 @@ const BookingsContent = () => {
   const error = useSelector(getBookingsError)
   const [bookingData, setBookingData] = useState([])
   const [loading, setLoading] = useState(true)
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
   useEffect(() => {
     if (status === "idle") {
@@ -37,7 +75,7 @@ const BookingsContent = () => {
       console.log(error);
       setLoading(false);
     }
-  }, [status])
+  }, [status, bookings, dispatch, error])
 
   const cols = [
     {property: 'name', label: 'Name', display: (data) => (
@@ -48,9 +86,24 @@ const BookingsContent = () => {
     {property: 'order_date', label: 'Order Date'},
     {property: 'check_in', label: 'Check In'},
     {property: 'check_out', label: 'Check Out'},
-    {property: 'special_request', label: 'Special Request'},
+    {property: 'special_request', label: 'Special Request', display: (data) => {
+      if (data.special_request === null) {
+        return <Button $secondary>No Requests</Button>
+      } else {
+        return <Button $primary onClick={() => setSelectedRequest(data.special_request)}>View Request</Button>
+      }
+    
+    }},
     {property: 'room_type', label: 'Room Type'},
-    {property: 'status', label: 'Status'}
+    {property: 'status', label: 'Status', display: (data) => {
+      if (data.status === 'Check In') {
+        return <Button $success>Check In</Button>
+      } else if (data.status === 'Check Out') {
+        return <Button $error>Check Out</Button>
+      } else {
+        return <Button $warning>In Progress</Button>
+      }
+    }}
   ]
 
   const filters = [
@@ -68,6 +121,14 @@ const BookingsContent = () => {
       <>
         <Filters buttons={filters} setData={setBookingData} data={bookingData} bookings={bookings}/>
         <Table cols={cols} data={bookingData}/>
+        {selectedRequest && (
+            <StyledBackdrop>
+              <StyledDialog open>
+                <button onClick={() => setSelectedRequest(null)}>X</button>
+                <p>{selectedRequest}</p>
+              </StyledDialog>
+            </StyledBackdrop>
+            )}
       </> 
     }
   </StyledBookingsContainer>
