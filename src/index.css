@@ -12,10 +12,18 @@ body {
     background-color: #f8f8f8;
 
     #root {
-        display: grid;
-        grid-template-columns: fit-content(302px) 5.5fr;
-        grid-template-rows: 120px 1fr;
-        height: 100%;
+        > div {
+            display: grid;
+            grid-template-columns: fit-content(302px) 5.5fr;
+            grid-template-rows: 120px 1fr;
+            height: 100%;
+            transition: all 0.3s ease-in-out;
+
+            &.one-column {
+                grid-template-columns: 1fr;
+            }
+        }
+        
     }
 
     

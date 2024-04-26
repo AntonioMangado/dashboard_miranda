@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useAuthContext } from "./hooks/useAuthContext.js"
+import { SideBarContext } from "./context/SideBarContext.jsx"
 import Login from "./components/Login"
 import Dashboard from "./components/Dashboard"
 import GuestList from "./components/GuestList"
@@ -14,12 +16,14 @@ import PrivateRoute from "./components/PrivateRoute"
 import SideBar from "./components/SideBar"
 
 
+
 export default function App() {
 
   const { state, dispatch } = useAuthContext()
-  
+  const { isShown } = useContext(SideBarContext)
+
   return (
-    <>
+    <div className={isShown ? "" : "one-column"}>
       <BrowserRouter>
         {state.user.isAuth ? <SideBar/> : <></>}
         <Routes>
@@ -66,6 +70,6 @@ export default function App() {
             </PrivateRoute> } />
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   )
 }
