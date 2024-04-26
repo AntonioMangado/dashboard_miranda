@@ -1,8 +1,5 @@
-import { useState, useReducer, useContext } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { AuthContext } from "./context/AuthContext"
-import { initialState, reducer } from "./reducers/authReducer"
-import { SideBarContextProvider } from "./context/SideBarContext.jsx"
+import { useAuthContext } from "./hooks/useAuthContext.js"
 import Login from "./components/Login"
 import Dashboard from "./components/Dashboard"
 import GuestList from "./components/GuestList"
@@ -19,60 +16,56 @@ import SideBar from "./components/SideBar"
 
 export default function App() {
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { state, dispatch } = useAuthContext()
   
   return (
     <>
-    <SideBarContextProvider>
-      <AuthContext.Provider value={{ state, dispatch }}>
-          <BrowserRouter>
-            {state.isAuth ? <SideBar/> : <></>}
-            <Routes>
-              <Route path="/login" element={<Login/>} />
-              <Route path="/" element={
-                <PrivateRoute  >
-                  <Dashboard />
-                </PrivateRoute> } />
-              <Route path="/dashboard" element={
-                <PrivateRoute  >
-                  <Dashboard />
-                </PrivateRoute> } />
-              <Route path="/guests" element={
-                <PrivateRoute  >
-                  <GuestList />
-                </PrivateRoute> } />
-              <Route path="/staff" element={
-                <PrivateRoute  >
-                  <Staff />
-                </PrivateRoute> } />
-              <Route path="/rooms" element={
-                <PrivateRoute  >
-                  <RoomList />
-                </PrivateRoute> } />
-              <Route path="/reviews" element={
-                <PrivateRoute  >
-                  <Reviews />
-                </PrivateRoute> } />
-              <Route path="/bookings" element={
-                <PrivateRoute  >
-                  <Bookings />
-                </PrivateRoute> } />
-              <Route path="/bookings/:id" element={
-                <PrivateRoute  >
-                  <BookingDetails />
-                </PrivateRoute> } />
-              <Route path="/guests/:id" element={
-                <PrivateRoute  >
-                  <GuestDetails/>
-                </PrivateRoute> } />
-              <Route path="/rooms/:id" element={
-                <PrivateRoute  >
-                  <RoomDetails/>
-                </PrivateRoute> } />
-            </Routes>
-          </BrowserRouter>
-        </AuthContext.Provider> 
-      </SideBarContextProvider>
+      <BrowserRouter>
+        {state.user.isAuth ? <SideBar/> : <></>}
+        <Routes>
+          <Route path="/login" element={<Login/>} />
+          <Route path="/" element={
+            <PrivateRoute  >
+              <Dashboard />
+            </PrivateRoute> } />
+          <Route path="/dashboard" element={
+            <PrivateRoute  >
+              <Dashboard />
+            </PrivateRoute> } />
+          <Route path="/guests" element={
+            <PrivateRoute  >
+              <GuestList />
+            </PrivateRoute> } />
+          <Route path="/staff" element={
+            <PrivateRoute  >
+              <Staff />
+            </PrivateRoute> } />
+          <Route path="/rooms" element={
+            <PrivateRoute  >
+              <RoomList />
+            </PrivateRoute> } />
+          <Route path="/reviews" element={
+            <PrivateRoute  >
+              <Reviews />
+            </PrivateRoute> } />
+          <Route path="/bookings" element={
+            <PrivateRoute  >
+              <Bookings />
+            </PrivateRoute> } />
+          <Route path="/bookings/:id" element={
+            <PrivateRoute  >
+              <BookingDetails />
+            </PrivateRoute> } />
+          <Route path="/guests/:id" element={
+            <PrivateRoute  >
+              <GuestDetails/>
+            </PrivateRoute> } />
+          <Route path="/rooms/:id" element={
+            <PrivateRoute  >
+              <RoomDetails/>
+            </PrivateRoute> } />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }

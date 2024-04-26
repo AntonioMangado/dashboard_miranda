@@ -8,14 +8,14 @@ import { StyledLink } from "../../styledComponents/Link";
 import { NavBar } from "../../styledComponents/NavBar";
 import { AdminCard } from "../../styledComponents/AdminCard";
 import { Footer } from "../../styledComponents/Footer";
-import { AuthContext } from "../../context/AuthContext";
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { SideBarContext } from '../../context/SideBarContext';
 
 
 
 const SideBar = () => {
 
-  const { state, dispatch } = useContext(AuthContext);
+  const { state, dispatch } = useAuthContext();
   const { isShown } = useContext(SideBarContext);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -46,8 +46,8 @@ const SideBar = () => {
     <AdminCard>
       <img src="/cat-avatar.jpg" alt="admin's profile picture" />
       <div>
-        {isEditing ? <form onSubmit={handleSubmit}><input type="text" name="user"/></form> : <p>{state.user}</p> }
-        <p>miemail@gmail.com</p>
+        {isEditing ? <form onSubmit={handleSubmit}><input type="text" name="user"/></form> : <p>{state.user.username}</p> }
+        <p>{state.user.email}</p>
       </div>
       <Button $secondary $wide onClick={() => setIsEditing(!isEditing)}>EDIT</Button>
     </AdminCard>

@@ -42,11 +42,8 @@ const StyledBackdrop = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);  // Semi-transparent black
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
-  z-index: 999;  // Ensure it's above other content
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 999; 
 `;
 
 

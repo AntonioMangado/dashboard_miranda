@@ -2,17 +2,16 @@ import { useContext } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faEnvelope, faBell, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { StyledNotificationBar } from "../../styledComponents/StyledNotificationBar";
-import { AuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import { SideBarContext } from "../../context/SideBarContext";
 
 const NotificationBar = ({title}) => {
 
-  const { dispatch } = useContext(AuthContext);
+  const { dispatch } = useAuthContext();
   const { isShown, setIsShown } = useContext(SideBarContext);
 
   const handleLogout = () => {
     dispatch({type: 'LOGOUT'});
-    localStorage.removeItem('auth');
     localStorage.removeItem('user');
   }
 
