@@ -10,7 +10,7 @@ export const StyledLink = styled(Link)`
     display: flex;
     gap: 20px;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     text-decoration: none;
 
     &:hover {

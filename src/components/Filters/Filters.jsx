@@ -3,7 +3,7 @@ import { StyledSelect } from "../../styledComponents/Select";
 import { StyledFilters } from "../../styledComponents/StyledFilters";
 import { Button } from "../../styledComponents/Button";
 
-const Filters = ({data, setData, bookings, staff, buttons}) => {
+const Filters = ({data, setData, bookings, staff, rooms, reviews, buttons}) => {
 
   const isInRoomsPage = window.location.pathname.includes("rooms");
   const isInBookingsPage = window.location.pathname.includes("bookings");
@@ -23,8 +23,7 @@ const Filters = ({data, setData, bookings, staff, buttons}) => {
 
   useEffect(() => {
     if (bookingsInput === "") {
-      setData(bookings);
-      return;
+      setData(bookings || staff || rooms || reviews);
     } else {
       const filteredData = bookings.filter((item) => item.guest.name.toLowerCase().includes(bookingsInput.toLowerCase()));
       setData(filteredData);
@@ -33,8 +32,7 @@ const Filters = ({data, setData, bookings, staff, buttons}) => {
 
   useEffect(() => {
     if (staffInput === "") {
-      setData(staff);
-      return;
+      setData(staff || bookings || rooms || reviews);
     } else {
       const filteredData = staff.filter((item) => item.fullName.toLowerCase().includes(staffInput.toLowerCase()));
       setData(filteredData);
@@ -81,13 +79,11 @@ const Filters = ({data, setData, bookings, staff, buttons}) => {
     }
   }
 
-
-
   return (
   <StyledFilters>
     <div>
         {buttons.map((button, index) => {
-            return <button onClick={button.function} key={index}>{button.label}</button>
+            return <button onClick={button.action} key={index}>{button.label}</button>
         })}
         {isInBookingsPage && <input onChange={handleBookingsChange} value={bookingsInput} type="text" name="guest-name" id="guest-name"  placeholder="Guest name"/>}
         {isInStaffPage && <input onChange={handleStaffChange} value={staffInput} type="text" name="staff-name" id="staff-name"  placeholder="Staff member"/>}

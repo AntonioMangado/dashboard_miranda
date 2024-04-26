@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Table from "../../Table";
 import Filters from "../../Filters";
-import { rooms } from "../../../../data/rooms";
+import { Button } from "../../../styledComponents/Button";
+import { getRoomsData, getRoomsStatus, getRoomsError } from "../../../features/rooms/roomsSlice";
+import { getRoomsThunk } from "../../../features/rooms/roomsThunk";
 
 const StyledRoomsContainer = styled.div`
       padding: 35px;
@@ -18,9 +21,20 @@ const StyledRoomsContainer = styled.div`
 
 const RoomsContent = () => {
 
-  const [roomsData, setRoomsData] = useState(rooms);
+  const dispatch = useDispatch();
+  const rooms = useSelector(getRoomsData);
+  const [roomsData, setRoomsData] = useState(rooms || []);
+  const [loading, setLoading] = useState(true)
 
+  const initialFetch = async () => {
+      await dispatch(getRoomsThunk()).unwrap();
+      setRoomsData(rooms);
+      setLoading(false);
+  } 
   
+  useEffect(() => {
+    initialFetch();
+  }, [])
 
   const cols = [
     {label: 'Image', property: 'image', display: (row) => <img src={row.image} alt="room"/>},
@@ -30,19 +44,31 @@ const RoomsContent = () => {
     {label: 'Amenities', property: 'amenities', display: (row) => row.amenities.join(', ')},
     {label: 'Price', property: 'price', display: (row) => `$${row.price}/night`},
     {label: 'Offer Price', property: 'offerPrice', display: (row) => `$${row.price}/night`},
-    {label: 'Status', property: 'status'}
+    {label: 'Status', property: 'status', display: (data) => {
+      if (data.status === 'available') {
+        return <Button $success>Available</Button>
+      } else {
+        return <Button $error>Booked</Button>
+      } 
+    }}
   ]
 
   const filters = [
-    {label: 'All Rooms'},
-    {label: 'Available'},
-    {label: 'Booked'}
+    {label: 'All Rooms', action: () => setRoomsData(rooms)},
+    {label: 'Available', action: () => setRoomsData(rooms.filter(room => room.status === 'available'))},
+    {label: 'Booked', action: () => setRoomsData(rooms.filter(room => room.status === 'booked'))},
   ]
 
   return (
   <StyledRoomsContainer>
-    <Filters buttons={filters} data={roomsData} setData={setRoomsData}/>
-    <Table cols={cols} data={rooms} />
+    {loading ?
+      <p>Loading...</p> 
+      :
+      <>
+        <Filters buttons={filters} data={roomsData} setData={setRoomsData} rooms={rooms}/>
+        <Table cols={cols} data={roomsData} />
+      </> 
+    }
   </StyledRoomsContainer>
   );
 };

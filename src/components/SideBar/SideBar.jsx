@@ -9,12 +9,14 @@ import { NavBar } from "../../styledComponents/NavBar";
 import { AdminCard } from "../../styledComponents/AdminCard";
 import { Footer } from "../../styledComponents/Footer";
 import { AuthContext } from "../../context/AuthContext";
+import { SideBarContext } from '../../context/SideBarContext';
 
 
 
 const SideBar = () => {
 
   const { state, dispatch } = useContext(AuthContext);
+  const { isShown } = useContext(SideBarContext);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleSubmit = (e) => {
@@ -25,7 +27,7 @@ const SideBar = () => {
   }
 
   return (
-  <StyledSideBar>
+  <StyledSideBar $display={isShown ? "block" : "none"}>
     <LogoContainer>
       <FontAwesomeIcon icon={faHotel} />
       <div>

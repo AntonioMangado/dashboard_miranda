@@ -23,4 +23,22 @@ export const Button = styled.button`
     ${props => props.$wide && css`
         width: 100%;
     `};
+
+    ${props => props.$success && css`
+        background-color: ${colors.background_success};
+        color: ${colors.success};
+        width: 100%;
+    `};
+    
+    ${props => props.$error && css`
+        background-color: ${colors.background_error};
+        color: ${colors.danger};
+        width: 100%;
+    `};
+
+    ${props => props.$warning && css`
+        background-color: ${colors.background_warning};
+        color: ${colors.warning};
+        width: 100%;
+    `};
 `

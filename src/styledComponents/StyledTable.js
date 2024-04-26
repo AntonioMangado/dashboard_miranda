@@ -11,7 +11,15 @@ export const StyledTable = styled.table`
 
     th, td {
         padding: 15px;
-        text-align: left;
         border-bottom: 1px solid #e5e5e5;
+        text-align: left;
+
+        button {
+            width: 100%;
+        }
+
+        a {
+            display: block;
+        }
     }
 `

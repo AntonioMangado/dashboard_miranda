@@ -7,7 +7,7 @@ export const rooms = [
       amenities: ['Wi-Fi', 'TV', 'Air Conditioning'],
       price: 100,
       offerPrice: 90,
-      status: 'available'
+      status: 'available',
     },
     {
       image: 'hotel-room.webp',
