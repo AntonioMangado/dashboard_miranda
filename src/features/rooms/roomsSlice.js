@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getRoomsThunk, getRoomThunk } from './roomsThunk';
+import { createRoomThunk, deleteRoomThunk, getRoomsThunk, getRoomThunk } from './roomsThunk';
+import { updateBookingThunk } from '../bookings/bookingsThunk';
 
 export const roomsSlice = createSlice({
     name: "rooms",
@@ -22,20 +23,29 @@ export const roomsSlice = createSlice({
                 state.status = "fulfilled";
                 state.data.room = action.payload;
             })
-            .addCase(getRoomsThunk.pending, (state) => {
-                state.status = "pending";
+            .addCase(deleteRoomThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.rooms = state.data.rooms.filter(room => room.roomID !== action.payload);
             })
-            .addCase(getRoomsThunk.rejected, (state, action) => {
-                state.status = "rejected";
-                state.error = action.error.message;
+            .addCase(updateBookingThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.room = action.payload;
             })
-            .addCase(getRoomThunk.pending, (state) => {
-                state.status = "pending";
+            .addCase(createRoomThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.rooms.push(action.payload);
             })
-            .addCase(getRoomThunk.rejected, (state, action) => {
-                state.status = "rejected";
-                state.error = action.error.message;
-            })
+            .addMatcher(
+                (action) =>
+                    [getRoomsThunk.pending, getRoomThunk.pending, deleteRoomThunk.pending, updateBookingThunk.pending, createRoomThunk.pending].includes(action.type) ||
+                    [getRoomsThunk.rejected, getRoomThunk.rejected, deleteRoomThunk.rejected, updateBookingThunk.rejected, createRoomThunk.rejected].includes(action.type),
+                (state, action) => {
+                    state.status = action.type.includes('pending') ? "pending" : "rejected";
+                    if (action.type.includes('rejected')) {
+                        state.error = action.error.message;
+                    }
+                }
+            )
     }
 });
 

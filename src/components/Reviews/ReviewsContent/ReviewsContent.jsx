@@ -15,24 +15,18 @@ const StyledReviewsContainer = styled.section`
 const ReviewsContent = () => {
   const dispatch = useDispatch();
   const reviews = useSelector(getReviewsData);
-  const status = useSelector(getReviewsStatus);
-  const error = useSelector(getReviewsError);
   const [reviewsData, setReviewsData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const initialFetch = async () => {
+    await dispatch(getReviewsThunk()).unwrap();
+    setReviewsData(reviews);
+    setLoading(false);
+  } 
+
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(getReviewsThunk());
-    } else if (status === "pending") {
-      setLoading(true);
-    } else if (status === "fulfilled") {
-      setReviewsData(reviews);
-      setLoading(false);
-    } else if (status === "rejected") {
-      console.log(error);
-      setLoading(false);
-    }
-  }, [status])
+    initialFetch();
+  }, [])
 
   const ratingToStars = (rating) => {
     let stars = [];

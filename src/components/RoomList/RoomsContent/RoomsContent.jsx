@@ -23,24 +23,18 @@ const RoomsContent = () => {
 
   const dispatch = useDispatch();
   const rooms = useSelector(getRoomsData);
-  const status = useSelector(getRoomsStatus);
-  const error = useSelector(getRoomsError);
   const [roomsData, setRoomsData] = useState(rooms || []);
   const [loading, setLoading] = useState(true)
-  
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(getRoomsThunk());
-    } else if (status === "pending") {
-      setLoading(true);
-    } else if (status === "fulfilled") {
+
+  const initialFetch = async () => {
+      await dispatch(getRoomsThunk()).unwrap();
       setRoomsData(rooms);
       setLoading(false);
-    } else if (status === "rejected") {
-      console.log(error);
-      setLoading(false);
-    }
-  }, [status])
+  } 
+  
+  useEffect(() => {
+    initialFetch();
+  }, [])
 
   const cols = [
     {label: 'Image', property: 'image', display: (row) => <img src={row.image} alt="room"/>},

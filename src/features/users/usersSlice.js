@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getStaffThunk } from './usersThunk';
+import { createMemberThunk, deleteMemberThunk, getMemberThunk, getStaffThunk, updateMemberThunk } from './usersThunk';
 
 export const usersSlice = createSlice({
     name: "users",
@@ -14,17 +14,37 @@ export const usersSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getStaffThunk.pending, (state) => {
-                state.status = "pending";
-            })
             .addCase(getStaffThunk.fulfilled, (state, action) => {
                 state.status = "fulfilled";
                 state.data.users = action.payload;
             })
-            .addCase(getStaffThunk.rejected, (state, action) => {
-                state.status = "rejected";
-                state.error = action.error.message;
-            });
+            .addCase(getMemberThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.user = action.payload;
+            })
+            .addCase(createMemberThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.users.push(action.payload);
+            })
+            .addCase(updateMemberThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.user = action.payload;
+            })
+            .addCase(deleteMemberThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.users = state.data.users.filter(user => user.employeeId !== action.payload);
+            })
+            .addMatcher(
+                (action) => 
+                    [getStaffThunk.pending, getMemberThunk.pending, createMemberThunk.pending, updateMemberThunk.pending, deleteMemberThunk.pending].includes(action.type) ||
+                    [getStaffThunk.rejected, getMemberThunk.rejected, createMemberThunk.rejected, updateMemberThunk.rejected, deleteMemberThunk.rejected].includes(action.type),
+                (state, action) => {
+                    state.status = action.type.includes('pending') ? "pending" : "rejected";
+                    if (action.type.includes('rejected')) {
+                        state.error = action.error.message;
+                    }
+                }
+            );
     }
 });
 

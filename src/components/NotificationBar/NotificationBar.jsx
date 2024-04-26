@@ -1,12 +1,14 @@
 import { useContext } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faEnvelope, faBell, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faEnvelope, faBell, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { StyledNotificationBar } from "../../styledComponents/StyledNotificationBar";
 import { AuthContext } from "../../context/AuthContext";
+import { SideBarContext } from "../../context/SideBarContext";
 
 const NotificationBar = ({title}) => {
 
   const { dispatch } = useContext(AuthContext);
+  const { isShown, setIsShown } = useContext(SideBarContext);
 
   const handleLogout = () => {
     dispatch({type: 'LOGOUT'});
@@ -14,10 +16,18 @@ const NotificationBar = ({title}) => {
     localStorage.removeItem('user');
   }
 
+  const handleClick = () => {
+    setIsShown(!isShown);
+    console.log(isShown);
+  }
+
   return (
     <StyledNotificationBar>
       <div>
-          <FontAwesomeIcon icon={faBars} />
+          {isShown 
+              ? <FontAwesomeIcon icon={faArrowLeft} onClick={handleClick}/>
+              : <FontAwesomeIcon icon={faArrowRight} onClick={handleClick}/>
+          }
           <p>{title}</p>
       </div>
       <div>

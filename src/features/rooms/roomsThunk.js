@@ -11,3 +11,18 @@ export const getRoomThunk = createAsyncThunk("rooms/getRoom", async (id) => {
     const request = await delayData(rooms.find(room => room.roomID == id));
     return request;
 })
+
+export const deleteRoomThunk = createAsyncThunk("rooms/deleteRoom", async (id) => {
+    await delayData();
+    return id;
+})
+
+export const updateRoomThunk = createAsyncThunk("rooms/updateRoom", async (room) => {
+    await delayData();
+    return room;
+})
+
+export const createRoomThunk = createAsyncThunk("rooms/createRoom", async (room) => {
+    await delayData();
+    return room;
+})

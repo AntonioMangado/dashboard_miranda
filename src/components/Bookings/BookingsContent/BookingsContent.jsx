@@ -54,29 +54,19 @@ const BookingsContent = () => {
 
   const dispatch = useDispatch()
   const bookings = useSelector(getBookingsData)
-  const status = useSelector(getBookingsStatus)
-  const error = useSelector(getBookingsError)
   const [bookingData, setBookingData] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedRequest, setSelectedRequest] = useState(null);
 
+  const initialFetch = async () => {
+    await dispatch(getBookingsThunk()).unwrap();
+      setBookingData(bookings);
+      setLoading(false);
+  }
+
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(getBookingsThunk());
-    } else if (status === "pending") {
-      setLoading(true);
-    } else if (status === "fulfilled") {
-      let data = [];
-      bookings.forEach(booking => {
-        data.push(booking)
-      })
-      setBookingData(data);
-      setLoading(false);
-    } else if (status === "rejected") {
-      console.log(error);
-      setLoading(false);
-    }
-  }, [status, bookings, dispatch, error])
+    initialFetch();
+  }, [])
 
   const cols = [
     {property: 'name', label: 'Name', display: (data) => (

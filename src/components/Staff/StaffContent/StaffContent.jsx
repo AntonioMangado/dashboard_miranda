@@ -23,28 +23,18 @@ const StaffContent = () => {
 
   const dispatch = useDispatch();
   const staff = useSelector(getUsersData);
-  const status = useSelector(getUsersStatus);
-  const error = useSelector(getUsersError);
   const [staffData, setStaffData] = useState([]);
   const [loading, setLoading] = useState(true)
 
+  const initialFetch = async () => {
+    await dispatch(getStaffThunk()).unwrap();
+    setStaffData(staff);
+    setLoading(false);
+  }
+
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(getStaffThunk());
-    } else if (status === "pending") {
-      setLoading(true);
-    } else if (status === "fulfilled") {
-      let data = [];
-      staff.forEach(member => {
-        data.push(member)
-      })
-      setStaffData(data);
-      setLoading(false);
-    } else if (status === "rejected") {
-      console.log(error);
-      setLoading(false);
-    }
-  }, [status])
+    initialFetch()
+  }, [])
 
   const cols = [
     {property: "photo", label: "Photo", display: (row) => <img src={row.photo} alt="employee"/>},

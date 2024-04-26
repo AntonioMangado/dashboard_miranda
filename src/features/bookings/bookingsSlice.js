@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { deleteBookingThunk, getBookingsThunk, getBookingThunk } from './bookingsThunk';
+import { createBookingThunk, deleteBookingThunk, getBookingsThunk, getBookingThunk, updateBookingThunk } from './bookingsThunk';
 
 export const bookingsSlice = createSlice({
     name: "bookings",
@@ -26,10 +26,18 @@ export const bookingsSlice = createSlice({
                 state.status = "fulfilled";
                 state.data.bookings = state.data.bookings.filter(booking => booking.booking_id !== action.payload);
             })
+            .addCase(updateBookingThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.booking = action.payload;
+            })
+            .addCase(createBookingThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.bookings.push(action.payload);
+            })
             .addMatcher(
                 (action) => 
-                    [getBookingsThunk.pending, getBookingThunk.pending, deleteBookingThunk.pending].includes(action.type) ||
-                    [getBookingsThunk.rejected, getBookingThunk.rejected, deleteBookingThunk.rejected].includes(action.type),
+                    [getBookingsThunk.pending, getBookingThunk.pending, deleteBookingThunk.pending, updateBookingThunk.pending, createBookingThunk.pending].includes(action.type) ||
+                    [getBookingsThunk.rejected, getBookingThunk.rejected, deleteBookingThunk.rejected, updateBookingThunk.rejected, createBookingThunk.rejected].includes(action.type),
                 (state, action) => {
                     state.status = action.type.includes('pending') ? "pending" : "rejected";
                     if (action.type.includes('rejected')) {

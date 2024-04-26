@@ -16,3 +16,13 @@ export const deleteBookingThunk = createAsyncThunk("bookings/deleteBooking", asy
     await delayData();
     return id;
 })
+
+export const updateBookingThunk = createAsyncThunk("bookings/updateBooking", async (data) => {
+    await delayData();
+    return data;
+})
+
+export const createBookingThunk = createAsyncThunk("bookings/createBooking", async (data) => {
+    await delayData();
+    return data;
+})

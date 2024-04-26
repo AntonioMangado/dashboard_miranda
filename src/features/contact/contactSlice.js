@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getReviewsThunk } from './contactThunk';
+import { createReviewThunk, deleteReviewThunk, getReviewsThunk, getReviewThunk, updateReviewThunk } from './contactThunk';
 
 export const reviewsSlice = createSlice({
     name: "reviews",
@@ -14,17 +14,37 @@ export const reviewsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getReviewsThunk.pending, (state) => {
-                state.status = "pending";
-            })
             .addCase(getReviewsThunk.fulfilled, (state, action) => {
                 state.status = "fulfilled";
                 state.data.reviews = action.payload;
             })
-            .addCase(getReviewsThunk.rejected, (state, action) => {
-                state.status = "rejected";
-                state.error = action.error.message;
-            });
+            .addCase(getReviewThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.review = action.payload;
+            })
+            .addCase(createReviewThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.reviews.push(action.payload);
+            })
+            .addCase(deleteReviewThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.reviews = state.data.reviews.filter(review => review.orderId !== action.payload);
+            })
+            .addCase(updateReviewThunk.fulfilled, (state, action) => {
+                state.status = "fulfilled";
+                state.data.review = action.payload;
+            })
+            .addMatcher(
+                (action) => 
+                    [getReviewsThunk.pending, getReviewThunk.pending, createReviewThunk.pending, deleteReviewThunk.pending, updateReviewThunk.pending].includes(action.type) ||
+                    [getReviewsThunk.rejected, getReviewThunk.rejected, createReviewThunk.rejected, deleteReviewThunk.rejected, updateReviewThunk.rejected].includes(action.type),
+                (state, action) => {
+                    state.status = action.type.includes('pending') ? "pending" : "rejected";
+                    if (action.type.includes('rejected')) {
+                        state.error = action.error.message;
+                    }
+                }
+            );
     }
 });
 
