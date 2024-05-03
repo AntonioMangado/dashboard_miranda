@@ -23,7 +23,6 @@ const SideBar = () => {
     e.preventDefault();
     dispatch({type: "UPDATE_USER", payload: e.target.user.value })
     setIsEditing(false);
-    localStorage.setItem('user', e.target.user.value);
   }
 
   return (

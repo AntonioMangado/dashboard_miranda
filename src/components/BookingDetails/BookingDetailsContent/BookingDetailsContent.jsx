@@ -11,7 +11,6 @@ import { colors } from "../../../assets/theme"
 const StyledContainer = styled.section`
   padding: 35px;
   overflow-x: auto;
-  
 `
 
 const StyledGuestDetail = styled.article`

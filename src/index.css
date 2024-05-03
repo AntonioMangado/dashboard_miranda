@@ -12,6 +12,7 @@ body {
     background-color: #f8f8f8;
 
     #root {
+        height: 100%;
         > div {
             display: grid;
             grid-template-columns: fit-content(302px) 5.5fr;

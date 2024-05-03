@@ -9,6 +9,7 @@ export const Button = styled.button`
     border-radius: 12px;
     border: none;
     cursor: pointer;
+    transition: all 0.1s ease-in-out;
 
     ${props => props.$primary && css`
         background-color: ${colors.primary};
@@ -18,6 +19,11 @@ export const Button = styled.button`
     ${props => props.$secondary && css`
         background-color: ${colors.secondary};
         color: ${colors.primary};
+
+        &:hover {
+            background-color: ${colors.primary};
+            color: white;
+        }
     `};
 
     ${props => props.$wide && css`

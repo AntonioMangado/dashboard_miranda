@@ -15,7 +15,7 @@ export const AuthReducer = (state, action) => {
         case 'UPDATE_USER':
             return {
                 ...state,
-                user: action.payload,
+                user: { ...state.user, username: action.payload },
             };
         default:
             return state;
@@ -23,7 +23,7 @@ export const AuthReducer = (state, action) => {
 }
 
 const initialState = {
-    user: JSON.parse(localStorage.getItem('user')) || null,
+    user: JSON.parse(localStorage.getItem('user')) || {username: '', email: '', isAuth: false},
 }
 
 export const AuthProvider = ({ children }) => {
