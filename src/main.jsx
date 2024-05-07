@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import { Provider } from 'react-redux'
 import './index.css'
-import { store } from "./app/store.js";
+import { store } from "./app/store.ts";
 import { AuthProvider } from './context/AuthContext.jsx'
 import { SideBarContextProvider } from './context/SideBarContext.jsx'
 

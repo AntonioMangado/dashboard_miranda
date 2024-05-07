@@ -1,4 +1,15 @@
-export const staff = [
+export interface Staff {
+    photo: string;
+    fullName: string;
+    employeeId: string;
+    email: string;
+    startDate: string;
+    description: string;
+    contact: string;
+    status: string;
+}
+
+export const staff: Staff[] = [
     {
       photo: 'employee.webp',
       fullName: 'John Doe',

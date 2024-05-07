@@ -1,16 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Booking } from '../../../data/bookings';
+import type { RootState } from '../../app/store';
 import { createBookingThunk, deleteBookingThunk, getBookingsThunk, getBookingThunk, updateBookingThunk } from './bookingsThunk';
+
+interface BookingsState {
+    data: {
+        bookings: Booking[];
+        booking: Booking | null;
+    };
+    status: 'idle' | 'pending' | 'fulfilled' | 'rejected';
+    error: string | null;
+}
+
+const initialState: BookingsState = {
+    data: {
+        bookings: [],
+        booking: null
+    },
+    status: 'idle',
+    error: null
+};
 
 export const bookingsSlice = createSlice({
     name: "bookings",
-    initialState: {
-        data: {
-            bookings: [],
-            booking: null
-        },
-        status: 'idle',
-        error: null
-    },
+    initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
@@ -48,7 +61,7 @@ export const bookingsSlice = createSlice({
     }
 });
 
-export const getBookingsData = (state) => state.bookings.data.bookings;
-export const getBookingData = (state) => state.bookings.data.booking;
-export const getBookingsStatus = (state) => state.bookings.status;
-export const getBookingsError = (state) => state.bookings.error;
+export const getBookingsData = (state: RootState) => state.bookings.data.bookings;
+export const getBookingData = (state: RootState) => state.bookings.data.booking;
+export const getBookingsStatus = (state: RootState) => state.bookings.status;
+export const getBookingsError = (state: RootState) => state.bookings.error;

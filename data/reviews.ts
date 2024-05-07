@@ -1,4 +1,13 @@
-export const reviews = [
+export interface Review {
+    orderId: string;
+    date: string;
+    customer: string;
+    rating: number;
+    comment: string;
+
+}
+
+export const reviews: Review[] = [
     {
         "orderId": "ORD001",
         "date": "2024-04-01",

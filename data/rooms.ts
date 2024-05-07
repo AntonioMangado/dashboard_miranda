@@ -1,4 +1,15 @@
-export const rooms = [
+export interface Room {
+    image: string;
+    roomNumber: number;
+    roomID: string;
+    roomType: string;
+    amenities: string[];
+    price: number;
+    offerPrice: number;
+    status: string;
+}
+
+export const rooms: Room[] = [
     {
       image: 'hotel-room.webp',
       roomNumber: 101,
