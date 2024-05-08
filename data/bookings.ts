@@ -1,19 +1,4 @@
-type Guest = {
-  name: string;
-  surname: string;
-}
-
-export interface Booking {
-  guest: Guest;
-  booking_id: number;
-  order_date: string;
-  check_in: string;
-  check_out: string;
-  special_request: string | null;
-  room_type: string;
-  roomID: string;
-  status: string; 
-}
+import { Booking } from '../lib/types';
 
 export const bookings: Booking[] = [
     {

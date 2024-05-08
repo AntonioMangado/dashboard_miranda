@@ -1,11 +1,4 @@
-export interface Review {
-    orderId: string;
-    date: string;
-    customer: string;
-    rating: number;
-    comment: string;
-
-}
+import { Review } from '../lib/types';
 
 export const reviews: Review[] = [
     {

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Booking } from '../../../data/bookings';
+import { Booking } from '../../../lib/types';
 import type { RootState } from '../../app/store';
 import { createBookingThunk, deleteBookingThunk, getBookingsThunk, getBookingThunk, updateBookingThunk } from './bookingsThunk';
 

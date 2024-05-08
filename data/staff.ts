@@ -1,13 +1,4 @@
-export interface Staff {
-    photo: string;
-    fullName: string;
-    employeeId: string;
-    email: string;
-    startDate: string;
-    description: string;
-    contact: string;
-    status: string;
-}
+import { Staff } from '../lib/types';
 
 export const staff: Staff[] = [
     {

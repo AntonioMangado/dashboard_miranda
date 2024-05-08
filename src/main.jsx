@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import App from './App'
 import { Provider } from 'react-redux'
 import './index.css'
 import { store } from "./app/store.ts";
-import { AuthProvider } from './context/AuthContext.jsx'
-import { SideBarContextProvider } from './context/SideBarContext.jsx'
+import { AuthProvider } from './context/AuthContext.tsx'
+import { SideBarContextProvider } from './context/SideBarContext.tsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(

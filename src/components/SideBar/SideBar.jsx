@@ -21,7 +21,7 @@ const SideBar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch({type: "UPDATE_USER", payload: e.target.user.value })
+    dispatch({type: "UPDATE_USER", payload: { username: e.target.user.value, email: state.user.email, isAuth: state.user.isAuth }})
     setIsEditing(false);
   }
 

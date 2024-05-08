@@ -2,22 +2,34 @@ import { useEffect, useState } from "react";
 import { StyledSelect } from "../../styledComponents/Select";
 import { StyledFilters } from "../../styledComponents/StyledFilters";
 import { Button } from "../../styledComponents/Button";
+import { Booking, Staff, Review, Room, TFilter } from "../../../lib/types";
 
-const Filters = ({data, setData, bookings, staff, rooms, reviews, buttons}) => {
+
+interface FiltersProps {
+    data: Booking[] | Staff[] | Room[] | Review[] | undefined;
+    setData: React.Dispatch<React.SetStateAction<Booking[] | Staff[] | Room[] | Review[] | undefined>>;
+    bookings?: Booking[];
+    staff?: Staff[];
+    rooms?: Room[];
+    reviews?: Review[];
+    buttons?: TFilter[];
+}
+
+const Filters = ({data, setData, bookings, staff, rooms, reviews, buttons}: FiltersProps) => {
 
   const isInRoomsPage = window.location.pathname.includes("rooms");
   const isInBookingsPage = window.location.pathname.includes("bookings");
   const isInStaffPage = window.location.pathname.includes("staff");
 
 
-  const [bookingsInput, setBookingsInput] = useState("");
-  const [staffInput, setStaffInput] = useState("");
+  const [bookingsInput, setBookingsInput] = useState<string>("");
+  const [staffInput, setStaffInput] = useState<string>("");
 
-  const handleBookingsChange = (e) => {
+  const handleBookingsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBookingsInput(e.target.value);
   };
 
-  const handleStaffChange = (e) => {
+  const handleStaffChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStaffInput(e.target.value);
   };
 
@@ -25,7 +37,7 @@ const Filters = ({data, setData, bookings, staff, rooms, reviews, buttons}) => {
     if (bookingsInput === "") {
       setData(bookings || staff || rooms || reviews);
     } else {
-      const filteredData = bookings.filter((item) => item.guest.name.toLowerCase().includes(bookingsInput.toLowerCase()));
+      const filteredData = bookings?.filter((item) => item.guest.name.toLowerCase().includes(bookingsInput.toLowerCase()));
       setData(filteredData);
     }
   }, [bookingsInput]);
@@ -34,39 +46,39 @@ const Filters = ({data, setData, bookings, staff, rooms, reviews, buttons}) => {
     if (staffInput === "") {
       setData(staff || bookings || rooms || reviews);
     } else {
-      const filteredData = staff.filter((item) => item.fullName.toLowerCase().includes(staffInput.toLowerCase()));
+      const filteredData = staff?.filter((item) => item.fullName.toLowerCase().includes(staffInput.toLowerCase()));
       setData(filteredData);
     }
   }, [staffInput]);
 
-  const handleBookingsSort = (e) => {
+  const handleBookingsSort = (e: React.ChangeEvent<HTMLInputElement>) => {
     const sortValue = e.target.value;
-    let dataToSort = [...data];
-    let sortedData = [];
+    let dataToSort: Booking[] = [...data];
+    let sortedData: Booking[] = [];
     switch (sortValue) {
       case "order-date":
-        sortedData = dataToSort.sort((a, b) => new Date(a.order_date) - new Date(b.order_date));
+        sortedData = dataToSort?.sort((a, b) => new Date(a.order_date) - new Date(b.order_date));
         setData(sortedData);
         break;
       case "guest":
-        sortedData = dataToSort.sort((a, b) => a.guest.name > b.guest.name ? 1 : -1);
+        sortedData = dataToSort?.sort((a, b) => a.guest.name > b.guest.name ? 1 : -1);
         setData(sortedData);
         break;
       case "check-in":
-        sortedData = dataToSort.sort((a, b) => new Date(a.check_in) - new Date(b.check_in));
+        sortedData = dataToSort?.sort((a, b) => new Date(a.check_in) - new Date(b.check_in));
         setData(sortedData);
         break;
       case "check-out":
-        sortedData = dataToSort.sort((a, b) => new Date(a.check_out) - new Date(b.check_out));
+        sortedData = dataToSort?.sort((a, b) => new Date(a.check_out) - new Date(b.check_out));
         setData(sortedData);
         break;
     }
   }
 
-  const handleEmployeesSort = (e) => {
+  const handleEmployeesSort = (e: React.ChangeEvent<HTMLInputElement>) => {
     const sortValue = e.target.value;
-    let dataToSort = [...data];
-    let sortedData = [];
+    let dataToSort: Staff[] = [...data];
+    let sortedData: Staff[] = [];
     switch (sortValue) {
       case "start-date":
         sortedData = dataToSort.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
@@ -82,7 +94,7 @@ const Filters = ({data, setData, bookings, staff, rooms, reviews, buttons}) => {
   return (
   <StyledFilters>
     <div>
-        {buttons.map((button, index) => {
+        {buttons?.map((button, index) => {
             return <button onClick={button.action} key={index}>{button.label}</button>
         })}
         {isInBookingsPage && <input onChange={handleBookingsChange} value={bookingsInput} type="text" name="guest-name" id="guest-name"  placeholder="Guest name"/>}

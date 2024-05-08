@@ -1,13 +1,4 @@
-export interface Room {
-    image: string;
-    roomNumber: number;
-    roomID: string;
-    roomType: string;
-    amenities: string[];
-    price: number;
-    offerPrice: number;
-    status: string;
-}
+import { Room } from '../lib/types';
 
 export const rooms: Room[] = [
     {

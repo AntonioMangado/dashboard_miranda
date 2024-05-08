@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components"
 import Filters from "../../Filters"
 import Table from "../../Table"
@@ -7,6 +6,8 @@ import { StyledLink } from "../../../styledComponents/Link"
 import { getBookingsData, getBookingsStatus, getBookingsError } from "../../../features/bookings/bookingsSlice";
 import { getBookingsThunk } from "../../../features/bookings/bookingsThunk";
 import { Button } from "../../../styledComponents/Button";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks"
+import { TFilter, Booking } from "../../../../lib/types";
 
 const StyledBookingsContainer = styled.div`
   padding: 35px;
@@ -47,15 +48,16 @@ const StyledBackdrop = styled.div`
 `;
 
 
+
 const BookingsContent = () => {
 
-  const dispatch = useDispatch()
-  const bookings = useSelector(getBookingsData)
-  const [bookingData, setBookingData] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [selectedRequest, setSelectedRequest] = useState(null);
+  const dispatch = useAppDispatch()
+  const bookings = useAppSelector(getBookingsData)
+  const [bookingData, setBookingData] = useState<Booking[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [selectedRequest, setSelectedRequest] = useState<string | null>(null);
 
-  const initialFetch = async () => {
+  const initialFetch = async (): Promise<void> => {
     await dispatch(getBookingsThunk()).unwrap();
       setBookingData(bookings);
       setLoading(false);
@@ -66,7 +68,7 @@ const BookingsContent = () => {
   }, [])
 
   const cols = [
-    {property: 'name', label: 'Name', display: (data) => (
+    {property: 'name', label: 'Name', display: (data: Booking) => (
       <StyledLink $nomargin to={`/bookings/${data.booking_id}`}>
         <p>{data.guest.name} {data.guest.surname}</p>
       </StyledLink>
@@ -74,16 +76,13 @@ const BookingsContent = () => {
     {property: 'order_date', label: 'Order Date'},
     {property: 'check_in', label: 'Check In'},
     {property: 'check_out', label: 'Check Out'},
-    {property: 'special_request', label: 'Special Request', display: (data) => {
-      if (data.special_request === null) {
-        return <Button $secondary>No Requests</Button>
-      } else {
-        return <Button $primary onClick={() => setSelectedRequest(data.special_request)}>View Request</Button>
-      }
-    
+    {property: 'special_request', label: 'Special Request', display: (data: Booking) => {
+      return data.special_request === null 
+        ? <Button $secondary>No Requests</Button>
+        : <Button $primary onClick={() => setSelectedRequest(data.special_request)}>View Request</Button>
     }},
     {property: 'room_type', label: 'Room Type'},
-    {property: 'status', label: 'Status', display: (data) => {
+    {property: 'status', label: 'Status', display: (data: Booking) => {
       if (data.status === 'Check In') {
         return <Button $success>Check In</Button>
       } else if (data.status === 'Check Out') {
@@ -94,7 +93,7 @@ const BookingsContent = () => {
     }}
   ]
 
-  const filters = [
+  const filters: TFilter[] = [
     {label: 'All Bookings', action: () => setBookingData(bookings)},
     {label: 'Check In', action: () => setBookingData(bookings.filter(booking => booking.status === 'Check In'))},
     {label: 'Check Out', action: () => setBookingData(bookings.filter(booking => booking.status === 'Check Out'))},
