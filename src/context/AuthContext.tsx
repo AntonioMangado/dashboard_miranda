@@ -1,12 +1,6 @@
 import { createContext, useEffect, useReducer } from 'react';
+import { User } from '../../lib/types';
 
-type User = {
-    user: {
-        username: string;
-        email: string;
-        isAuth: boolean;
-    }
-}
 
 type AuthContextType = {
     state: User;

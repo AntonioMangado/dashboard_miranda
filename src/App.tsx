@@ -2,10 +2,8 @@ import { useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useAuthContext } from "./hooks/useAuthContext"
 import { SideBarContext } from "./context/SideBarContext"
-import Login from "./components/Login/index.js"
-import Dashboard from "./components/Dashboard/index.js"
-import GuestList from "./components/GuestList/index.js"
-import GuestDetails from "./components/GuestDetails/index.js"
+import Login from "./components/Login/index"
+import Dashboard from "./components/Dashboard/index"
 import Staff from "./components/Staff/index.js"
 import RoomList from "./components/RoomList/index.js"
 import RoomDetails from "./components/RoomDetails/index.js"
@@ -36,10 +34,6 @@ export default function App() {
             <PrivateRoute  >
               <Dashboard />
             </PrivateRoute> } />
-          <Route path="/guests" element={
-            <PrivateRoute  >
-              <GuestList />
-            </PrivateRoute> } />
           <Route path="/staff" element={
             <PrivateRoute  >
               <Staff />
@@ -59,10 +53,6 @@ export default function App() {
           <Route path="/bookings/:id" element={
             <PrivateRoute  >
               <BookingDetails />
-            </PrivateRoute> } />
-          <Route path="/guests/:id" element={
-            <PrivateRoute  >
-              <GuestDetails/>
             </PrivateRoute> } />
           <Route path="/rooms/:id" element={
             <PrivateRoute  >

@@ -4,8 +4,10 @@ import styled from "styled-components";
 import Table from "../../Table";
 import Filters from "../../Filters";
 import { Button } from "../../../styledComponents/Button";
-import { getUserData, getUsersData, getUsersError, getUsersStatus } from "../../../features/users/usersSlice";
+import { getUsersData } from "../../../features/users/usersSlice";
 import { getStaffThunk } from "../../../features/users/usersThunk";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { Staff, TCols, TFilter } from "../../../../lib/types";
  
 
 const StyledStaffContainer = styled.div`
@@ -21,9 +23,9 @@ const StyledStaffContainer = styled.div`
 
 const StaffContent = () => {
 
-  const dispatch = useDispatch();
-  const staff = useSelector(getUsersData);
-  const [staffData, setStaffData] = useState([]);
+  const dispatch = useAppDispatch();
+  const staff = useAppSelector(getUsersData);
+  const [staffData, setStaffData] = useState<Staff[]>([]);
   const [loading, setLoading] = useState(true)
 
   const initialFetch = async () => {
@@ -36,7 +38,7 @@ const StaffContent = () => {
     initialFetch()
   }, [])
 
-  const cols = [
+  const cols: TCols[] = [
     {property: "photo", label: "Photo", display: (row) => <img src={row.photo} alt="employee"/>},
     {property: "fullName", label: "Full Name"},
     {property: "employeeId", label: "Employee ID"},
@@ -54,7 +56,7 @@ const StaffContent = () => {
     }}
   ]
 
-  const filters = [
+  const filters: TFilter[] = [
     {label: "All Employess", action: () => setStaffData(staff)},
     {label: "Active Employees", action: () => setStaffData(staff.filter(employee => employee.status === "ACTIVE"))},
     {label: "Inactive Employees", action: () => setStaffData(staff.filter(employee => employee.status === "INACTIVE"))}

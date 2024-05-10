@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, AnyAction } from '@reduxjs/toolkit';
 import { Booking } from '../../../lib/types';
 import type { RootState } from '../../app/store';
 import { createBookingThunk, deleteBookingThunk, getBookingsThunk, getBookingThunk, updateBookingThunk } from './bookingsThunk';
@@ -51,7 +51,7 @@ export const bookingsSlice = createSlice({
                 (action) => 
                     [getBookingsThunk.pending, getBookingThunk.pending, deleteBookingThunk.pending, updateBookingThunk.pending, createBookingThunk.pending].includes(action.type) ||
                     [getBookingsThunk.rejected, getBookingThunk.rejected, deleteBookingThunk.rejected, updateBookingThunk.rejected, createBookingThunk.rejected].includes(action.type),
-                (state, action) => {
+                (state, action: AnyAction) => {
                     state.status = action.type.includes('pending') ? "pending" : "rejected";
                     if (action.type.includes('rejected')) {
                         state.error = action.error.message;

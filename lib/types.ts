@@ -62,3 +62,11 @@ export interface Staff {
     contact: string;
     status: string;
 }
+
+export type User = {
+    user: {
+        username: string;
+        email: string;
+        isAuth: boolean;
+    }
+}

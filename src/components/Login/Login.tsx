@@ -1,21 +1,27 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { StyledLogin } from "../../styledComponents/StyledLogin";
 import { Button } from "../../styledComponents/Button";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { admins } from "../../../data/admins";
+import { User } from "../../../lib/types"
+
+interface Target {
+  username: { value: string };
+  password: { value: string };
+}
 
 const Login = () => {
 
   const navigate = useNavigate();
-  const { dispatch, state } = useAuthContext();
+  const { dispatch } = useAuthContext();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const admin = admins.find(admin => admin.username === e.target.username.value && admin.password === e.target.password.value);
+    const target = e.target as typeof e.target & Target;
+    const admin = admins.find(admin => admin.username === target.username.value && admin.password === target.password.value);
     if (admin) {
-      const user = {
-        username: e.target.username.value,
+      const user: User["user"] = {
+        username: target.username.value,
         email: admin.email,
         isAuth: true
       }

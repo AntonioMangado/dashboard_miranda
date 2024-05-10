@@ -5,17 +5,21 @@ import { StyledNotificationBar } from "../../styledComponents/StyledNotification
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { SideBarContext } from "../../context/SideBarContext";
 
-const NotificationBar = ({title}) => {
+interface NotificationBarProps {
+  title: string
+}
+
+const NotificationBar = ({title}: NotificationBarProps) => {
 
   const { dispatch } = useAuthContext();
   const { isShown, setIsShown } = useContext(SideBarContext);
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     dispatch({type: 'LOGOUT'});
     localStorage.removeItem('user');
   }
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     setIsShown(!isShown);
     console.log(isShown);
   }

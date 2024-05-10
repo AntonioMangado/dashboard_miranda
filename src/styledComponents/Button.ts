@@ -1,7 +1,16 @@
 import styled, { css } from "styled-components";
 import { colors } from "../assets/theme";
 
-export const Button = styled.button`
+interface ButtonProps {
+    $primary?: boolean,
+    $secondary?: boolean,
+    $wide?: boolean,
+    $success?: boolean,
+    $error?: boolean,
+    $warning?: boolean
+}
+
+export const Button = styled.button<ButtonProps>`
     padding: 13px 16px;
     background-color: transparent;
     color: ${colors.primary};

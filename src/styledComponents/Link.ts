@@ -2,7 +2,7 @@ import styled, {css} from "styled-components";
 import { colors } from "../assets/theme";
 import { Link } from "react-router-dom";
 
-export const StyledLink = styled(Link)`
+export const StyledLink = styled(Link)<{$nomargin: boolean}>`
 
     list-style: none;
     color: ${colors.primary_text};

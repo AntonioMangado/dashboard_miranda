@@ -2,14 +2,14 @@ import styled, { css } from "styled-components";
 import { colors } from "../assets/theme";
 
 type GridProps = {
-    $columnSpan2: boolean,
-    $columnSpan4: boolean,
-    $rowSpan2: boolean,
-    $rowSpan4: boolean,
-    $primaryColor: boolean,
-    $KPI: boolean,
-    $light: boolean,
-    $rooms: boolean
+    $columnSpan2?: boolean,
+    $columnSpan4?: boolean,
+    $rowSpan2?: boolean,
+    $rowSpan4?: boolean,
+    $primaryColor?: boolean,
+    $KPI?: boolean,
+    $light?: boolean,
+    $rooms?: boolean
 }
 
 export const GridItem = styled.div<GridProps>`
