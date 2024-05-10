@@ -1,7 +1,18 @@
 import styled, { css } from "styled-components";
 import { colors } from "../assets/theme";
 
-export const GridItem = styled.div`
+type GridProps = {
+    $columnSpan2: boolean,
+    $columnSpan4: boolean,
+    $rowSpan2: boolean,
+    $rowSpan4: boolean,
+    $primaryColor: boolean,
+    $KPI: boolean,
+    $light: boolean,
+    $rooms: boolean
+}
+
+export const GridItem = styled.div<GridProps>`
     box-shadow: 0px 4px 4px #00000005;
     border-radius: 12px;
     background-color: white;

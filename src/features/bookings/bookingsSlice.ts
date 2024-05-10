@@ -27,23 +27,23 @@ export const bookingsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getBookingsThunk.fulfilled, (state, action) => {
+            .addCase(getBookingsThunk.fulfilled, (state, action: PayloadAction<Booking[]>) => {
                 state.status = "fulfilled";
                 state.data.bookings = action.payload;
             })
-            .addCase(getBookingThunk.fulfilled, (state, action) => {
+            .addCase(getBookingThunk.fulfilled, (state, action: PayloadAction<Booking>) => {
                 state.status = "fulfilled";
                 state.data.booking = action.payload;
             })
-            .addCase(deleteBookingThunk.fulfilled, (state, action) => {
+            .addCase(deleteBookingThunk.fulfilled, (state, action: PayloadAction<number>) => {
                 state.status = "fulfilled";
                 state.data.bookings = state.data.bookings.filter(booking => booking.booking_id !== action.payload);
             })
-            .addCase(updateBookingThunk.fulfilled, (state, action) => {
+            .addCase(updateBookingThunk.fulfilled, (state, action: PayloadAction<Booking>) => {
                 state.status = "fulfilled";
                 state.data.booking = action.payload;
             })
-            .addCase(createBookingThunk.fulfilled, (state, action) => {
+            .addCase(createBookingThunk.fulfilled, (state, action: PayloadAction<Booking>) => {
                 state.status = "fulfilled";
                 state.data.bookings.push(action.payload);
             })

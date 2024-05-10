@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 import { bookingsSlice } from "../features/bookings/bookingsSlice";
 import { roomsSlice } from "../features/rooms/roomsSlice";
 import { usersSlice } from "../features/users/usersSlice";
@@ -15,3 +15,4 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;

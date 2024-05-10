@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { useAuthContext } from "./hooks/useAuthContext.js"
-import { SideBarContext } from "./context/SideBarContext.tsx"
+import { useAuthContext } from "./hooks/useAuthContext"
+import { SideBarContext } from "./context/SideBarContext"
 import Login from "./components/Login/index.js"
 import Dashboard from "./components/Dashboard/index.js"
 import GuestList from "./components/GuestList/index.js"

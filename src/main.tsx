@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import { Provider } from 'react-redux'
 import './index.css'
-import { store } from "./app/store.ts";
-import { AuthProvider } from './context/AuthContext.tsx'
-import { SideBarContextProvider } from './context/SideBarContext.tsx'
+import { store } from "./app/store";
+import { AuthProvider } from './context/AuthContext'
+import { SideBarContextProvider } from './context/SideBarContext'
 
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
       <AuthProvider>

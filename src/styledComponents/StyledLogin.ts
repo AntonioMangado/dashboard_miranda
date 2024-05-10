@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors } from "../assets/theme.ts";
+import { colors } from "../assets/theme";
 
 export const StyledLogin = styled.section`
 
