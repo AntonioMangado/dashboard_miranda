@@ -10,15 +10,25 @@ const Login = () => {
   const navigate = useNavigate();
   const { dispatch, state } = useAuthContext();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const admin = admins.find(admin => admin.username === e.target.username.value && admin.password === e.target.password.value);
-    if (admin) {
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const response = await fetch(import.meta.env.VITE_API_URL + '/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({email, password}),
+    })
+    const data = await response.json();
+    if (response) {
       const user = {
-        username: e.target.username.value,
-        email: admin.email,
+        username: data.username,
+        email: data.email,
         isAuth: true
       }
+      localStorage.setItem('auth-token', data.token);
       dispatch({type: 'LOGIN', payload: user})
       navigate('/dashboard');
     } else {
@@ -36,7 +46,7 @@ const Login = () => {
             <h2>Hello!</h2>
             <p>Sign in to your account</p>
           </article>
-          <input type="text" id="username" name="username" placeholder="Username"/>
+          <input type="email" id="email" name="email" placeholder="Email"/>
           <input type="password" id="password" name="password" placeholder="Password"/>
           <Button $primary type="submit">Login</Button>
       </form>

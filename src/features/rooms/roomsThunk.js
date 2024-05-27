@@ -1,14 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { rooms } from "../../../data/rooms";
 import { delayData } from "../delay";
+import { fetchData } from "../../utils/fetchData";
 
 export const getRoomsThunk = createAsyncThunk("rooms/getRooms", async () => {
-    const request = await delayData(rooms);
+    const request = await fetchData('/rooms');
     return request;
 })
 
 export const getRoomThunk = createAsyncThunk("rooms/getRoom", async (id) => {
-    const request = await delayData(rooms.find(room => room.roomID == id));
+    const request = await fetchData(`/room/${id}`);
     return request;
 })
 

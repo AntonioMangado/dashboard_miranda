@@ -6,6 +6,7 @@ import BookingDetailsContent from "./BookingDetailsContent";
 const BookingDetails = () => {
 
   const { id } = useParams();
+  console.log(id)
   
   return (
   <>

@@ -57,17 +57,17 @@ const BookingsContent = () => {
 
   const initialFetch = async () => {
     await dispatch(getBookingsThunk()).unwrap();
-      setBookingData(bookings);
-      setLoading(false);
+    setBookingData(bookings);
+    setLoading(false);
   }
 
   useEffect(() => {
     initialFetch();
-  }, [])
+  }, [bookings])
 
   const cols = [
     {property: 'name', label: 'Name', display: (data) => (
-      <StyledLink $nomargin to={`/bookings/${data.booking_id}`}>
+      <StyledLink $nomargin to={`/bookings/${data._id}`}>
         <p>{data.guest.name} {data.guest.surname}</p>
       </StyledLink>
     )},

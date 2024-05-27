@@ -1,14 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { bookings } from "../../../data/bookings";
 import { delayData } from "../delay";
+import { fetchData } from "../../utils/fetchData";
 
 export const getBookingsThunk = createAsyncThunk("bookings/getBookings", async () => {
-    const request = await delayData(bookings);
+    const request = await fetchData('/bookings');
     return request;
 })
 
 export const getBookingThunk = createAsyncThunk("bookings/getBooking", async (id) => {
-    const request = await delayData(bookings.find(booking => booking.booking_id == id));
+    const request = await fetchData(`/booking/${id}`);
+    console.log(request)
     return request;
 })
 

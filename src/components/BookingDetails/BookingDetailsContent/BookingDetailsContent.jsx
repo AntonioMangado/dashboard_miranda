@@ -161,14 +161,18 @@ const BookingDetailsContent = ({id}) => {
   }
 
   const fetchRoom = async () => {
-    await dispatch(getRoomThunk(booking?.roomID)).unwrap();
+    console.log(booking)
+    await dispatch(getRoomThunk(booking.roomID)).unwrap();
     setFetched(true)
+    console.log('fetch room is exercuted') 
   }
-
+  
   useEffect(() => {
     initialFetch()
     fetchRoom()
   }, [loading])
+  
+  console.log(room)
 
   return (
   <StyledContainer>

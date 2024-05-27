@@ -2,7 +2,6 @@ import React from "react";
 import { StyledTable } from "../../styledComponents/StyledTable";
 
 const Table = ({cols, data}) => {
-
   const displayRows = (row, i) => {
     return (
       <tr key={i}>
