@@ -39,7 +39,7 @@ const StaffContent = () => {
   }, [])
 
   const cols: TCols[] = [
-    {property: "photo", label: "Photo", display: (row) => <img src={row.photo} alt="employee"/>},
+    {property: "photo", label: "Photo", display: (data: Staff) => <img src={data.photo} alt="employee"/>},
     {property: "fullName", label: "Full Name"},
     {property: "employeeId", label: "Employee ID"},
     {property: "email", label: "Email"},
