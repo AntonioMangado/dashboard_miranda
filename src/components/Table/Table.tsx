@@ -1,9 +1,15 @@
 import React from "react";
 import { StyledTable } from "../../styledComponents/StyledTable";
+import { TCols, TableData, RowData } from "../../../lib/types";
 
-const Table = ({cols, data}) => {
+interface TableProps {
+  cols: TCols[];
+  data: TableData;
+}
 
-  const displayRows = (row, i) => {
+const Table = ({cols, data}: TableProps) => {
+
+  const displayRows = (row: RowData, i: number) => {
     return (
       <tr key={i}>
         {cols.map((col, i) => 

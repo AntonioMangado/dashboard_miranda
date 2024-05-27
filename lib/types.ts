@@ -4,15 +4,15 @@ export type TFilter = {
 }
 
 export type TCols = {
-    property: string;
     label: string;
-    display?: (data: Booking) => JSX.Element;
+    property: string;
+    display?: (data: RowData) => JSX.Element;
 }
 
 type Guest = {
     name: string;
     surname: string;
-  }
+}
   
 export interface Booking {
     guest: Guest;
@@ -70,3 +70,6 @@ export type User = {
         isAuth: boolean;
     }
 }
+
+export type TableData = Staff[] | Room[] | Booking[] | Review[];
+export type RowData = Staff | Room | Booking | Review;

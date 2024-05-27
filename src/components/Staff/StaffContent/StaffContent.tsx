@@ -28,7 +28,7 @@ const StaffContent = () => {
   const [staffData, setStaffData] = useState<Staff[]>([]);
   const [loading, setLoading] = useState(true)
 
-  const initialFetch = async () => {
+  const initialFetch = async (): Promise<void> => {
     await dispatch(getStaffThunk()).unwrap();
     setStaffData(staff);
     setLoading(false);
@@ -46,13 +46,12 @@ const StaffContent = () => {
     {property: "startDate", label: "Start Date"},
     {property: "description", label: "Description"},
     {property: "contact", label: "Contact"},
-    {property: "status", label: "Status", display: (data) => {
+    {property: "status", label: "Status", display: (data) => {      
       if (data.status === "ACTIVE") {
         return <Button $success>Active</Button>
       } else {
         return <Button $error>Inactive</Button>
       }
-    
     }}
   ]
 
