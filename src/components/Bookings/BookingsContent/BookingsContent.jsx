@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components"
+import { ToastContainer, toast } from 'react-toastify';
 import Filters from "../../Filters"
 import Table from "../../Table"
 import { StyledLink } from "../../../styledComponents/Link"
@@ -50,7 +51,7 @@ const StyledBackdrop = styled.div`
 
 
 const BookingsContent = () => {
-
+  
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const bookings = useSelector(getBookingsData)
@@ -59,22 +60,34 @@ const BookingsContent = () => {
   const [loading, setLoading] = useState(true)
   const [selectedRequest, setSelectedRequest] = useState(null);
   const { dispatch : authDispatch } = useAuthContext();
-
+  
   const initialFetch = async () => {
     await dispatch(getBookingsThunk()).unwrap();
     setBookingData(bookings);
     setLoading(false);
   }
-
+  
+  // const notifyExpiration = () => toast.warn('Token expired, please login again', {
+  //   position: "top-left",
+  //   autoClose: 5000,
+  //   hideProgressBar: false,
+  //   closeOnClick: true,
+  //   pauseOnHover: true,
+  //   draggable: true,
+  //   progress: undefined,
+  //   theme: "light"
+  // });
+  
   useEffect(() => {
     initialFetch();
   }, [loading])
-
+  
+  
   useEffect(() => {
+    console.log(error)
     if (error === 'Token expired' || error === 'Token not found') {
+      localStorage.setItem('auth-token', 'token expired')
       authDispatch({type: 'LOGOUT'})
-      localStorage.removeItem('auth-token')
-      window.location.reload()
     }
   }, [error]);
   
@@ -122,6 +135,7 @@ const BookingsContent = () => {
       <>
         <Filters buttons={filters} setData={setBookingData} data={bookingData} bookings={bookings}/>
         <Table cols={cols} data={bookingData}/>
+        <ToastContainer />
         {selectedRequest && (
             <StyledBackdrop>
               <StyledDialog open>

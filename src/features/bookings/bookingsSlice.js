@@ -11,7 +11,11 @@ export const bookingsSlice = createSlice({
         status: 'idle',
         error: null
     },
-    reducers: {},
+    reducers: {
+        resetError: (state) => {
+            state.error = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getBookingsThunk.fulfilled, (state, action) => {
@@ -51,6 +55,7 @@ export const bookingsSlice = createSlice({
     }
 });
 
+export const { resetError } = bookingsSlice.actions;
 export const getBookingsData = (state) => state.bookings.data.bookings;
 export const getBookingData = (state) => state.bookings.data.booking;
 export const getBookingsStatus = (state) => state.bookings.status;
