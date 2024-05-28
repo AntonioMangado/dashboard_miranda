@@ -34,18 +34,18 @@ const StaffContent = () => {
 
   useEffect(() => {
     initialFetch()
-  }, [])
+  }, [loading])
 
   const cols = [
     {property: "photo", label: "Photo", display: (row) => <img src={row.photo} alt="employee"/>},
     {property: "fullName", label: "Full Name"},
-    {property: "employeeId", label: "Employee ID"},
-    {property: "email", label: "Email"},
+    {property: "employeeId", label: "Employee ID", display: (row) => <p>{row._id}</p>},
+    {property: "email", label: "Email", display: (row) => <p>{(row.email).toLowerCase()}</p>},
     {property: "startDate", label: "Start Date"},
     {property: "description", label: "Description"},
     {property: "contact", label: "Contact"},
     {property: "status", label: "Status", display: (data) => {
-      if (data.status === "ACTIVE") {
+      if (data.status === "Active") {
         return <Button $success>Active</Button>
       } else {
         return <Button $error>Inactive</Button>

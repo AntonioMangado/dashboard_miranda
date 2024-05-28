@@ -26,7 +26,7 @@ const ReviewsContent = () => {
 
   useEffect(() => {
     initialFetch();
-  }, [])
+  }, [loading])
 
   const ratingToStars = (rating) => {
     let stars = [];
@@ -37,7 +37,7 @@ const ReviewsContent = () => {
   }
 
   const cols = [
-    {label: 'Order ID', property: 'orderId'},
+    {label: 'Order ID', property: 'orderId', display: (row) => <p>{row._id}</p>},
     {label: 'Date', property: 'date'},
     {label: 'Customer', property: 'customer'},
     {label: 'Comment', property: 'comment', display: (row, i) => <article key={i}><p>{ratingToStars(row.rating)}</p><p>{row.comment}</p></article>},

@@ -34,16 +34,16 @@ const RoomsContent = () => {
   
   useEffect(() => {
     initialFetch();
-  }, [])
+  }, [loading])
 
   const cols = [
     {label: 'Image', property: 'image', display: (row) => <img src={row.image} alt="room"/>},
-    {label: 'Room Number', property: 'roomNumber'},
-    {label: 'Room ID', property: 'roomID'},
+    {label: 'Room No.', property: 'roomNumber'},
+    {label: 'Room ID', property: 'roomID', display: (row) => <p>{row._id}</p>},
     {label: 'Room Type', property: 'roomType'},
     {label: 'Amenities', property: 'amenities', display: (row) => row.amenities.join(', ')},
     {label: 'Price', property: 'price', display: (row) => `$${row.price}/night`},
-    {label: 'Offer Price', property: 'offerPrice', display: (row) => `$${row.price}/night`},
+    {label: 'Offer Price', property: 'offerPrice', display: (row) => `$${row.offerPrice}/night`},
     {label: 'Status', property: 'status', display: (data) => {
       if (data.status === 'available') {
         return <Button $success>Available</Button>

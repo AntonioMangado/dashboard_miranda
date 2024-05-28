@@ -1,14 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { staff } from "../../../data/staff";
 import { delayData } from "../delay";
+import { fetchData } from "../../utils/fetchData";
 
 export const getStaffThunk = createAsyncThunk("staff/getStaff", async () => {
-    const request = await delayData(staff);
+    const request = await fetchData('/staff');
     return request;
 })
 
 export const getMemberThunk = createAsyncThunk("staff/getMember", async (id) => {
-    const request = await delayData(staff.find(member => member.employeeId === id));
+    const request = await fetchData(`/staff/${id}`);
     return request;
 })
 

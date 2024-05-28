@@ -10,7 +10,6 @@ export const getBookingsThunk = createAsyncThunk("bookings/getBookings", async (
 
 export const getBookingThunk = createAsyncThunk("bookings/getBooking", async (id) => {
     const request = await fetchData(`/booking/${id}`);
-    console.log(request)
     return request;
 })
 

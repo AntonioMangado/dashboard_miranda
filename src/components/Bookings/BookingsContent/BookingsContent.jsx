@@ -63,7 +63,7 @@ const BookingsContent = () => {
 
   useEffect(() => {
     initialFetch();
-  }, [bookings])
+  }, [loading])
 
   const cols = [
     {property: 'name', label: 'Name', display: (data) => (
