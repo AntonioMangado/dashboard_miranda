@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { reviews } from "../../../data/reviews";
 import { delayData } from "../delay";
 import { fetchData } from "../../utils/fetchData";
 
@@ -13,17 +12,17 @@ export const getReviewThunk = createAsyncThunk("reviews/getReview", async (id) =
     return request;
 })
 
-export const createReviewThunk = createAsyncThunk("reviews/createReview", async (review) => {
-    await delayData();
-    return review;
+export const createReviewThunk = createAsyncThunk("reviews/createReview", async (data) => {
+    const request = await fetchData(`/reviews`, 'POST', data);
+    return request;
 })
 
-export const updateReviewThunk = createAsyncThunk("reviews/updateReview", async (review) => {
-    await delayData();
-    return review;
+export const updateReviewThunk = createAsyncThunk("reviews/updateReview", async (id, data) => {
+    const request = await fetchData(`/review/${id}`, 'PATCH', data);
+    return request;
 })
 
 export const deleteReviewThunk = createAsyncThunk("reviews/deleteReview", async (id) => {
-    await delayData();
-    return id;
+    const request = await fetchData(`/review/${id}`, 'DELETE');
+    return request;
 })

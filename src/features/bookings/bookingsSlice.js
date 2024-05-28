@@ -34,10 +34,13 @@ export const bookingsSlice = createSlice({
                 state.status = "fulfilled";
                 state.data.bookings.push(action.payload);
             })
+            .addCase(getBookingsThunk.rejected, (state, action) => {
+                state.error = action.error.message;
+            })
             .addMatcher(
                 (action) => 
                     [getBookingsThunk.pending, getBookingThunk.pending, deleteBookingThunk.pending, updateBookingThunk.pending, createBookingThunk.pending].includes(action.type) ||
-                    [getBookingsThunk.rejected, getBookingThunk.rejected, deleteBookingThunk.rejected, updateBookingThunk.rejected, createBookingThunk.rejected].includes(action.type),
+                    [getBookingThunk.rejected, deleteBookingThunk.rejected, updateBookingThunk.rejected, createBookingThunk.rejected].includes(action.type),
                 (state, action) => {
                     state.status = action.type.includes('pending') ? "pending" : "rejected";
                     if (action.type.includes('rejected')) {

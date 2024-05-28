@@ -17,7 +17,6 @@ const NotificationBar = ({title}) => {
 
   const handleClick = () => {
     setIsShown(!isShown);
-    console.log(isShown);
   }
 
   return (

@@ -9,6 +9,6 @@ export const store = configureStore({
         bookings: bookingsSlice.reducer,
         users: usersSlice.reducer,
         rooms: roomsSlice.reducer,
-        reviews: reviewsSlice.reducer
+        reviews: reviewsSlice.reducer,
     }
 });

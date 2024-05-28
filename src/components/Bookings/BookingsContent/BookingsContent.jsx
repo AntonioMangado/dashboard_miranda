@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components"
 import Filters from "../../Filters"
 import Table from "../../Table"
@@ -7,6 +8,7 @@ import { StyledLink } from "../../../styledComponents/Link"
 import { getBookingsData, getBookingsStatus, getBookingsError } from "../../../features/bookings/bookingsSlice";
 import { getBookingsThunk } from "../../../features/bookings/bookingsThunk";
 import { Button } from "../../../styledComponents/Button";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const StyledBookingsContainer = styled.div`
   padding: 35px;
@@ -49,11 +51,14 @@ const StyledBackdrop = styled.div`
 
 const BookingsContent = () => {
 
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const bookings = useSelector(getBookingsData)
+  const error = useSelector(getBookingsError)
   const [bookingData, setBookingData] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const { dispatch : authDispatch } = useAuthContext();
 
   const initialFetch = async () => {
     await dispatch(getBookingsThunk()).unwrap();
@@ -65,6 +70,14 @@ const BookingsContent = () => {
     initialFetch();
   }, [loading])
 
+  useEffect(() => {
+    if (error === 'Token expired' || error === 'Token not found') {
+      authDispatch({type: 'LOGOUT'})
+      localStorage.removeItem('auth-token')
+      window.location.reload()
+    }
+  }, [error]);
+  
   const cols = [
     {property: 'name', label: 'Name', display: (data) => (
       <StyledLink $nomargin to={`/bookings/${data._id}`}>
