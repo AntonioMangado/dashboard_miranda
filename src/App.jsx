@@ -14,6 +14,7 @@ import Bookings from "./components/Bookings"
 import BookingDetails from "./components/BookingDetails"
 import PrivateRoute from "./components/PrivateRoute"
 import SideBar from "./components/SideBar"
+import NewRoom from "./components/NewRoom"
 
 
 
@@ -47,6 +48,10 @@ export default function App() {
           <Route path="/rooms" element={
             <PrivateRoute  >
               <RoomList />
+            </PrivateRoute> } />
+          <Route path="/newroom" element={
+            <PrivateRoute  >
+              <NewRoom />
             </PrivateRoute> } />
           <Route path="/reviews" element={
             <PrivateRoute  >
