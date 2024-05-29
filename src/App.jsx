@@ -19,11 +19,11 @@ import SideBar from "./components/SideBar"
 
 export default function App() {
 
-  const { state, dispatch } = useAuthContext()
+  const { state } = useAuthContext()
   const { isShown } = useContext(SideBarContext)
 
   return (
-    <div className={isShown ? "" : "one-column"}>
+    <div className={isShown ? "content" : "content one-column"}>
       <BrowserRouter>
         {state.user.isAuth ? <SideBar/> : <></>}
         <Routes>

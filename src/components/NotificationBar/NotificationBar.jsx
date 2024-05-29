@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { toast } from "react-toastify";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faEnvelope, faBell, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { StyledNotificationBar } from "../../styledComponents/StyledNotificationBar";
@@ -7,11 +8,14 @@ import { SideBarContext } from "../../context/SideBarContext";
 
 const NotificationBar = ({title}) => {
 
-  const { logout } = useAuthContext();
+  const { dispatch } = useAuthContext();
   const { isShown, setIsShown } = useContext(SideBarContext);
 
   const handleLogout = () => {
-    logout();
+    dispatch({ type: 'LOGOUT' });
+    toast.success('Logout successful!', {
+        autoClose: 2000,
+    });
     localStorage.removeItem('user');
   }
 

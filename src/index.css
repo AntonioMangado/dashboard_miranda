@@ -13,7 +13,7 @@ body {
 
     #root {
         height: 100%;
-        > div {
+        > div.content {
             display: grid;
             grid-template-columns: fit-content(302px) 5.5fr;
             grid-template-rows: 120px 1fr;
