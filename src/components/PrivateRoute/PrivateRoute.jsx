@@ -2,7 +2,10 @@ import { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { resetError } from "../../features/bookings/bookingsSlice"; 
+import { resetErrorB } from "../../features/bookings/bookingsSlice"; 
+import { resetErrorC } from "../../features/contact/contactSlice"; 
+import { resetErrorR } from "../../features/rooms/roomsSlice"; 
+import { resetErrorU } from "../../features/users/usersSlice"; 
 
 
 const PrivateRoute = ({children}) => {
@@ -14,7 +17,10 @@ const PrivateRoute = ({children}) => {
 
   useEffect(() => {
     if (!state.user.isAuth) {
-      dispatch(resetError());
+      dispatch(resetErrorB());
+      dispatch(resetErrorC());
+      dispatch(resetErrorR());
+      dispatch(resetErrorU());
       navigate('/login');
     }
   }, [state])

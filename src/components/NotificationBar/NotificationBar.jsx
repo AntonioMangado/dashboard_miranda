@@ -7,11 +7,11 @@ import { SideBarContext } from "../../context/SideBarContext";
 
 const NotificationBar = ({title}) => {
 
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
   const { isShown, setIsShown } = useContext(SideBarContext);
 
   const handleLogout = () => {
-    dispatch({type: 'LOGOUT'});
+    logout();
     localStorage.removeItem('user');
   }
 

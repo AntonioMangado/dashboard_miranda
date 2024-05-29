@@ -6,6 +6,7 @@ import Filters from "../../Filters";
 import { Button } from "../../../styledComponents/Button";
 import { getUserData, getUsersData, getUsersError, getUsersStatus } from "../../../features/users/usersSlice";
 import { getStaffThunk } from "../../../features/users/usersThunk";
+import { useAuthContext } from "../../../hooks/useAuthContext";
  
 
 const StyledStaffContainer = styled.div`
@@ -25,6 +26,8 @@ const StaffContent = () => {
   const staff = useSelector(getUsersData);
   const [staffData, setStaffData] = useState([]);
   const [loading, setLoading] = useState(true)
+  const error = useSelector(getUsersError);
+  const { dispatch: authDispatch } = useAuthContext();
 
   const initialFetch = async () => {
     await dispatch(getStaffThunk()).unwrap();
@@ -35,6 +38,13 @@ const StaffContent = () => {
   useEffect(() => {
     initialFetch()
   }, [loading])
+
+  useEffect(() => {
+    if (error === 'Token expired' || error === 'Token not found') {
+      localStorage.setItem('auth-token', 'token expired')
+      authDispatch({type: 'LOGOUT'})
+    }
+  }, [error]);
 
   const cols = [
     {property: "photo", label: "Photo", display: (row) => <img src={row.photo} alt="employee"/>},

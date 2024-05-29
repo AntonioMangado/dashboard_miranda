@@ -51,8 +51,7 @@ const StyledBackdrop = styled.div`
 
 
 const BookingsContent = () => {
-  
-  const navigate = useNavigate()
+
   const dispatch = useDispatch()
   const bookings = useSelector(getBookingsData)
   const error = useSelector(getBookingsError)
@@ -84,7 +83,6 @@ const BookingsContent = () => {
   
   
   useEffect(() => {
-    console.log(error)
     if (error === 'Token expired' || error === 'Token not found') {
       localStorage.setItem('auth-token', 'token expired')
       authDispatch({type: 'LOGOUT'})

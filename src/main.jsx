@@ -6,6 +6,9 @@ import './index.css'
 import { store } from "./app/store.js";
 import { AuthProvider } from './context/AuthContext.jsx'
 import { SideBarContextProvider } from './context/SideBarContext.jsx'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // import the CSS
+
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -15,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <SideBarContextProvider>
           <App />
         </SideBarContextProvider>
+        <ToastContainer />
       </AuthProvider>
     </Provider>
   </React.StrictMode>,

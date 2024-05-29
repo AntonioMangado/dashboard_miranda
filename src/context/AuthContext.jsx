@@ -1,10 +1,9 @@
 import { createContext, useEffect, useReducer } from 'react';
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
-
 export const AuthReducer = (state, action) => {
-
     switch (action.type) {
         case 'LOGIN':
             return {
@@ -12,7 +11,7 @@ export const AuthReducer = (state, action) => {
             };
         case 'LOGOUT':
             return {
-                user: {username: '', email: '', isAuth: false},
+                user: initialState,
             };
         case 'UPDATE_USER':
             return {
@@ -31,12 +30,20 @@ const initialState = {
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(AuthReducer, initialState);
 
+    const logout = () => {
+        dispatch({ type: 'LOGOUT' });
+        toast.success('Logout successful!', {
+            autoClose: 2000,
+            hideProgressBar: true,
+        });
+    };
+
     useEffect(() => {
         localStorage.setItem('user', JSON.stringify(state.user));
     }, [state]);
 
     return (
-        <AuthContext.Provider value={{ state, dispatch }}>
+        <AuthContext.Provider value={{ state, dispatch, logout }}>
             {children}
         </AuthContext.Provider>
     )

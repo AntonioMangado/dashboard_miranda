@@ -6,6 +6,7 @@ import { getReviewsData, getReviewsStatus, getReviewsError } from "../../../feat
 import { getReviewsThunk } from "../../../features/contact/contactThunk";
 import Filters from "../../Filters"
 import Table from "../../Table"
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const StyledReviewsContainer = styled.section`
     padding: 35px;
@@ -17,6 +18,8 @@ const ReviewsContent = () => {
   const reviews = useSelector(getReviewsData);
   const [reviewsData, setReviewsData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const error = useSelector(getReviewsError);
+  const { dispatch: authDispatch } = useAuthContext();
 
   const initialFetch = async () => {
     await dispatch(getReviewsThunk()).unwrap();
@@ -27,6 +30,13 @@ const ReviewsContent = () => {
   useEffect(() => {
     initialFetch();
   }, [loading])
+
+  useEffect(() => {
+    if (error === 'Token expired' || error === 'Token not found') {
+      localStorage.setItem('auth-token', 'token expired')
+      authDispatch({type: 'LOGOUT'})
+    }
+  }, [error]);
 
   const ratingToStars = (rating) => {
     let stars = [];

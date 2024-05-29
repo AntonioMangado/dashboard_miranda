@@ -8,13 +8,13 @@ export const StyledLogin = styled.section`
     height: 100vh;
 
     div {
-        &:first-of-type {
+        &:first-of-type.background-top {
             width: 100%;
             height: 65%;
             background-color: ${colors.primary};
         }
 
-        &:last-of-type {
+        &.background-bottom {
             width: 100%;
             height: 35%;
             background-color: ${colors.primary_text};

@@ -1,14 +1,19 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { StyledLogin } from "../../styledComponents/StyledLogin";
 import { Button } from "../../styledComponents/Button";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { admins } from "../../../data/admins";
+import { toast } from 'react-toastify';
+
 
 const Login = () => {
 
   const navigate = useNavigate();
   const { dispatch, state } = useAuthContext();
+
+  const notifyLoginSuccessful = () => toast.success('Login successful!', {
+    autoClose: 1300,
+  });
+  const notifyWrongCrendentials = (message) => toast.error(`${message}!`);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,25 +27,26 @@ const Login = () => {
       body: JSON.stringify({email, password}),
     })
     const data = await response.json();
-    if (response) {
+    if (!data.error && data.email) {
       const user = {
         username: data.username,
         email: data.email,
         isAuth: true
       }
       localStorage.setItem('auth-token', data.token);
+      notifyLoginSuccessful();
       dispatch({type: 'LOGIN', payload: user})
       navigate('/dashboard');
     } else {
-      alert('Invalid credentials');
+      notifyWrongCrendentials(data.message);
       return;
     }
   }
 
   return (
     <StyledLogin>
-      <div></div>
-      <div></div>
+      <div className="background-top"></div>
+      <div className="background-bottom"></div>
       <form onSubmit={handleSubmit}>
           <article>
             <h2>Hello!</h2>

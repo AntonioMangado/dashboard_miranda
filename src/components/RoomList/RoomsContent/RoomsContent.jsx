@@ -6,6 +6,7 @@ import Filters from "../../Filters";
 import { Button } from "../../../styledComponents/Button";
 import { getRoomsData, getRoomsStatus, getRoomsError } from "../../../features/rooms/roomsSlice";
 import { getRoomsThunk } from "../../../features/rooms/roomsThunk";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const StyledRoomsContainer = styled.div`
       padding: 35px;
@@ -25,6 +26,8 @@ const RoomsContent = () => {
   const rooms = useSelector(getRoomsData);
   const [roomsData, setRoomsData] = useState(rooms || []);
   const [loading, setLoading] = useState(true)
+  const error = useSelector(getRoomsError);
+  const { dispatch: authDispatch } = useAuthContext();
 
   const initialFetch = async () => {
       await dispatch(getRoomsThunk()).unwrap();
@@ -35,6 +38,13 @@ const RoomsContent = () => {
   useEffect(() => {
     initialFetch();
   }, [loading])
+
+  useEffect(() => {
+    if (error === 'Token expired' || error === 'Token not found') {
+      localStorage.setItem('auth-token', 'token expired')
+      authDispatch({type: 'LOGOUT'})
+    }
+  }, [error]);
 
   const cols = [
     {label: 'Image', property: 'image', display: (row) => <img src={row.image} alt="room"/>},

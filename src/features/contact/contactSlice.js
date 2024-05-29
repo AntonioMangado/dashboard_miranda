@@ -11,7 +11,11 @@ export const reviewsSlice = createSlice({
         status: 'idle',
         error: null
     },
-    reducers: {},
+    reducers: {
+        resetErrorC: (state) => {
+            state.error = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getReviewsThunk.fulfilled, (state, action) => {
@@ -34,10 +38,13 @@ export const reviewsSlice = createSlice({
                 state.status = "fulfilled";
                 state.data.review = action.payload;
             })
+            .addCase(getReviewsThunk.rejected, (state, action) => {
+                state.error = action.error.message;
+            })
             .addMatcher(
                 (action) => 
                     [getReviewsThunk.pending, getReviewThunk.pending, createReviewThunk.pending, deleteReviewThunk.pending, updateReviewThunk.pending].includes(action.type) ||
-                    [getReviewsThunk.rejected, getReviewThunk.rejected, createReviewThunk.rejected, deleteReviewThunk.rejected, updateReviewThunk.rejected].includes(action.type),
+                    [getReviewThunk.rejected, createReviewThunk.rejected, deleteReviewThunk.rejected, updateReviewThunk.rejected].includes(action.type),
                 (state, action) => {
                     state.status = action.type.includes('pending') ? "pending" : "rejected";
                     if (action.type.includes('rejected')) {
@@ -48,6 +55,7 @@ export const reviewsSlice = createSlice({
     }
 });
 
+export const { resetErrorC } = reviewsSlice.actions;
 export const getReviewsData = (state) => state.reviews.data.reviews;
 export const getReviewData = (state) => state.reviews.data.review;
 export const getReviewsStatus = (state) => state.reviews.status;

@@ -11,7 +11,11 @@ export const roomsSlice = createSlice({
         status: 'idle',
         error: null
     },
-    reducers: {},
+    reducers: {
+        resetErrorR: (state) => {
+            state.error = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getRoomsThunk.fulfilled, (state, action) => {
@@ -34,10 +38,13 @@ export const roomsSlice = createSlice({
                 state.status = "fulfilled";
                 state.data.rooms.push(action.payload);
             })
+            .addCase(getRoomsThunk.rejected, (state, action) => {
+                state.error = action.error.message;
+            })
             .addMatcher(
                 (action) =>
                     [getRoomsThunk.pending, getRoomThunk.pending, deleteRoomThunk.pending, updateRoomThunk.pending, createRoomThunk.pending].includes(action.type) ||
-                    [getRoomsThunk.rejected, getRoomThunk.rejected, deleteRoomThunk.rejected, updateRoomThunk.rejected, createRoomThunk.rejected].includes(action.type),
+                    [getRoomThunk.rejected, deleteRoomThunk.rejected, updateRoomThunk.rejected, createRoomThunk.rejected].includes(action.type),
                 (state, action) => {
                     state.status = action.type.includes('pending') ? "pending" : "rejected";
                     if (action.type.includes('rejected')) {
@@ -48,6 +55,7 @@ export const roomsSlice = createSlice({
     }
 });
 
+export const { resetErrorR } = roomsSlice.actions;
 export const getRoomsData = (state) => state.rooms.data.rooms;
 export const getRoomData = (state) => state.rooms.data.room;
 export const getRoomsStatus = (state) => state.rooms.status;

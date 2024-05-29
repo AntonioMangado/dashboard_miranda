@@ -12,7 +12,7 @@ export const bookingsSlice = createSlice({
         error: null
     },
     reducers: {
-        resetError: (state) => {
+        resetErrorB: (state) => {
             state.error = null;
         }
     },
@@ -55,7 +55,7 @@ export const bookingsSlice = createSlice({
     }
 });
 
-export const { resetError } = bookingsSlice.actions;
+export const { resetErrorB } = bookingsSlice.actions;
 export const getBookingsData = (state) => state.bookings.data.bookings;
 export const getBookingData = (state) => state.bookings.data.booking;
 export const getBookingsStatus = (state) => state.bookings.status;

@@ -10,6 +10,7 @@ import { AdminCard } from "../../styledComponents/AdminCard";
 import { Footer } from "../../styledComponents/Footer";
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { SideBarContext } from '../../context/SideBarContext';
+import { toast } from 'react-toastify';
 
 
 
@@ -23,6 +24,9 @@ const SideBar = () => {
     e.preventDefault();
     dispatch({type: "UPDATE_USER", payload: e.target.user.value })
     setIsEditing(false);
+    toast.success('Admin updated!', {
+      autoClose: 1300,
+    });
   }
 
   return (

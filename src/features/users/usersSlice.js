@@ -11,7 +11,11 @@ export const usersSlice = createSlice({
         status: 'idle',
         error: null
     },
-    reducers: {},
+    reducers: {
+        resetErrorU: (state) => {
+            state.error = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getStaffThunk.fulfilled, (state, action) => {
@@ -34,10 +38,13 @@ export const usersSlice = createSlice({
                 state.status = "fulfilled";
                 state.data.users = state.data.users.filter(user => user.employeeId !== action.payload);
             })
+            .addCase(getStaffThunk.rejected, (state, action) => {
+                state.error = action.error.message;
+            })
             .addMatcher(
                 (action) => 
                     [getStaffThunk.pending, getMemberThunk.pending, createMemberThunk.pending, updateMemberThunk.pending, deleteMemberThunk.pending].includes(action.type) ||
-                    [getStaffThunk.rejected, getMemberThunk.rejected, createMemberThunk.rejected, updateMemberThunk.rejected, deleteMemberThunk.rejected].includes(action.type),
+                    [getMemberThunk.rejected, createMemberThunk.rejected, updateMemberThunk.rejected, deleteMemberThunk.rejected].includes(action.type),
                 (state, action) => {
                     state.status = action.type.includes('pending') ? "pending" : "rejected";
                     if (action.type.includes('rejected')) {
@@ -48,6 +55,7 @@ export const usersSlice = createSlice({
     }
 });
 
+export const { resetErrorU } = usersSlice.actions;
 export const getUsersData = (state) => state.users.data.users;
 export const getUserData = (state) => state.users.data.user;
 export const getUsersStatus = (state) => state.users.status;
