@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { StyledSelect } from "../../styledComponents/Select";
 import { StyledFilters } from "../../styledComponents/StyledFilters";
 import { Button } from "../../styledComponents/Button";
@@ -88,7 +89,7 @@ const Filters = ({data, setData, bookings, staff, rooms, reviews, buttons}) => {
         {isInBookingsPage && <input onChange={handleBookingsChange} value={bookingsInput} type="text" name="guest-name" id="guest-name"  placeholder="Guest name"/>}
         {isInStaffPage && <input onChange={handleStaffChange} value={staffInput} type="text" name="staff-name" id="staff-name"  placeholder="Staff member"/>}
     </div>
-    {isInRoomsPage && <Button $primary>+ New Room</Button>} 
+    {isInRoomsPage && <Link to='/newroom'><Button $primary>+ New Room</Button></Link>} 
     {isInBookingsPage &&  <StyledSelect onChange={handleBookingsSort}>
                             <option value="order-date">Order Date</option>
                             <option value="guest">Guest</option>

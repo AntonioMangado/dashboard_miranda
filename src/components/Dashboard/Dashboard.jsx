@@ -6,7 +6,6 @@ import NotificationBar from "../NotificationBar";
 
 
 const Dashboard = () => {
-
   return (
   <>
     <NotificationBar title="Dashboard" />

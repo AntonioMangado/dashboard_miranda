@@ -13,5 +13,5 @@ export const fetchData = async (path, method = 'GET', data = null) => {
         body: data ? JSON.stringify(data) : null,
     });
     const responseData = await response.json();
-    return responseData.data;
+    return responseData.error ? responseData : responseData.data;
 }

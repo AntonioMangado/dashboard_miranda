@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { delayData } from "../delay";
 import { fetchData } from "../../utils/fetchData";
 
 export const getRoomsThunk = createAsyncThunk("rooms/getRooms", async () => {
@@ -22,7 +21,7 @@ export const updateRoomThunk = createAsyncThunk("rooms/updateRoom", async (id, d
     return request;
 })
 
-export const createRoomThunk = createAsyncThunk("rooms/createRoom", async (room) => {
+export const createRoomThunk = createAsyncThunk("rooms/createRoom", async (data) => {
     const request = await fetchData(`/rooms`, 'POST', data);
     return request;
 })

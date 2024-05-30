@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 
 
 const Login = () => {
-
   const navigate = useNavigate();
   const { dispatch, state } = useAuthContext();
 

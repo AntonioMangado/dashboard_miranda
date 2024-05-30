@@ -55,7 +55,7 @@ const BookingsContent = () => {
   const dispatch = useDispatch()
   const bookings = useSelector(getBookingsData)
   const error = useSelector(getBookingsError)
-  const [bookingData, setBookingData] = useState([])
+  const [bookingData, setBookingData] = useState(bookings)
   const [loading, setLoading] = useState(true)
   const [selectedRequest, setSelectedRequest] = useState(null);
   const { dispatch : authDispatch } = useAuthContext();
@@ -65,17 +65,6 @@ const BookingsContent = () => {
     setBookingData(bookings);
     setLoading(false);
   }
-  
-  // const notifyExpiration = () => toast.warn('Token expired, please login again', {
-  //   position: "top-left",
-  //   autoClose: 5000,
-  //   hideProgressBar: false,
-  //   closeOnClick: true,
-  //   pauseOnHover: true,
-  //   draggable: true,
-  //   progress: undefined,
-  //   theme: "light"
-  // });
   
   useEffect(() => {
     initialFetch();

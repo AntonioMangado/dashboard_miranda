@@ -36,7 +36,6 @@ export const roomsSlice = createSlice({
             })
             .addCase(createRoomThunk.fulfilled, (state, action) => {
                 state.status = "fulfilled";
-                state.data.rooms.push(action.payload);
             })
             .addCase(getRoomsThunk.rejected, (state, action) => {
                 state.error = action.error.message;
