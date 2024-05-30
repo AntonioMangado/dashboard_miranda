@@ -10,9 +10,47 @@ const StyledNewRoomContainer = styled.div`
       padding: 35px;
       overflow-y: auto;
 
+
       & > div {
         background: white;
         padding: 20px;
+        border-radius: 20px;
+        
+        form {
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+          margin: 0 auto;
+          justify-content: center;
+          align-items: center;
+
+          label {
+            align-self: flex-start;
+          }
+
+          input, select {
+            padding: 10px;
+            margin: 3px 0 10px;
+            background-color: #f5f5f5;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            width: 100%;
+            &:focus {
+              border: 1px solid #000000;
+            }
+          }
+
+          select {
+            font-size: 1rem;
+          }
+
+          button {
+            margin-top: 10px;
+            align-self: flex-end;
+            width: 200px;
+          }
+        }  
       }
 
       ul {
@@ -20,10 +58,12 @@ const StyledNewRoomContainer = styled.div`
         padding: 0;
         display: flex;
         gap: 10px;
+        align-self: flex-start;
 
         li {
           background: #f5f5f5;
           padding: 5px 10px;
+          margin-bottom: 10px;
           border-radius: 5px;
           display: flex;
           gap: 7px;
@@ -61,8 +101,13 @@ const NewRoomContent = () => {
     data.price = parseFloat(data.price);
     data.offerPrice = parseFloat(data.offerPrice);
     const result = await dispatch(createRoomThunk(data)).unwrap();
-    result.error ? toast.error('Missing fields: Please complete all information') : toast.success('Room created successfully');
-    navigate('/rooms');
+    console.log(result)
+    if (result.error) {
+      toast.error('Missing fields: Please complete all information');
+    } else {
+      toast.success('Room created successfully');
+      navigate('/rooms');
+    }
   };
 
   return (
@@ -73,7 +118,6 @@ const NewRoomContent = () => {
         <input type="text" id="image" name="image"></input>
         <label htmlFor="roomNumber">Room Number</label>
         <input type="text" id="roomNumber" name="roomNumber"></input>
-        <label htmlFor="roomType">Room Type</label>
         <select id="roomType" name="roomType">
           <option value='' disabled selected>Select Room Type</option>  
           <option value="Single Bed">Single Bed</option>
@@ -81,7 +125,6 @@ const NewRoomContent = () => {
           <option value="Double Superior">Double Superior</option>
           <option value="Suite">Suite</option>
         </select>
-        <label htmlFor="amenities">Amenities</label>
         <select id="amenities" name="amenities" onChange={handleAmenitiesChange}>
           <option value='' disabled selected>Choose Room Amenities</option>  
           <option value="AC">AC</option>
@@ -93,6 +136,13 @@ const NewRoomContent = () => {
           <option value="Fitness Facilities">Fitness facilities</option>
           <option value="Hairdryer">Hairdryer</option>
         </select>
+        <ul>
+          {amenitiesArr.map((amenity, index) => (
+            <>
+               <li key={index}>{amenity}<span onClick={() => setAmenitiesArr(amenitiesArr.filter(am => am !== amenity))}>X</span></li>
+            </>
+          ))}
+        </ul>
         <label htmlFor="price">Price</label>
         <input type="number" id="price" name="price"></input>
         <label htmlFor="offerPrice">Offer Price</label>
@@ -105,16 +155,6 @@ const NewRoomContent = () => {
         </select>
         <Button type="submit" $primary>Submit</Button>
       </form>
-      <div>
-        <h3>Amenities</h3>
-        <ul>
-          {amenitiesArr.map((amenity, index) => (
-            <>
-               <li key={index}>{amenity}<span onClick={() => setAmenitiesArr(amenitiesArr.filter(am => am !== amenity))}>X</span></li>
-            </>
-          ))}
-        </ul>
-      </div>
     </div>
   </StyledNewRoomContainer>);
 };
