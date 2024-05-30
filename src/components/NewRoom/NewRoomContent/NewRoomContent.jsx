@@ -101,7 +101,6 @@ const NewRoomContent = () => {
     data.price = parseFloat(data.price);
     data.offerPrice = parseFloat(data.offerPrice);
     const result = await dispatch(createRoomThunk(data)).unwrap();
-    console.log(result)
     if (result.error) {
       toast.error('Missing fields: Please complete all information');
     } else {

@@ -8,6 +8,7 @@ export const StyledTable = styled.table`
     border-radius: 20px;
     width: 100%;
     border-collapse: separate;
+    overflow-x: auto;
 
     th, td {
         padding: 15px;

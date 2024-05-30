@@ -1,22 +1,72 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import Table from "../../Table";
 import Filters from "../../Filters";
 import { Button } from "../../../styledComponents/Button";
+import { StyledActions } from "../../../styledComponents/Actions";
+import { StyledBackdrop } from "../../../styledComponents/StyledBackdrop";
 import { getRoomsData, getRoomsStatus, getRoomsError } from "../../../features/rooms/roomsSlice";
-import { getRoomsThunk } from "../../../features/rooms/roomsThunk";
+import { getRoomsThunk, deleteRoomThunk } from "../../../features/rooms/roomsThunk";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const StyledRoomsContainer = styled.div`
       padding: 35px;
       overflow-y: auto;
+      position: relative;
 
       img {
         width: 100px;
         height: 100px;
         object-fit: cover;
         border-radius: 8px;
+      }
+
+      div.delete-confirm-msg {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: white;
+          padding: 20px;
+          border-radius: 12px;
+          z-index: 999;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+
+          p {
+            width: 100%;
+          }
+
+          div {
+            align-self: flex-end;
+            display: flex;
+            gap: 10px;
+
+            button {
+              transition: all 0.3s ease-in-out;
+
+              &:first-of-type{
+                border: 1px solid #135846;
+
+                &:hover {
+                  background-color: #e6e5e5;
+                  box-shadow: 0px 4px 4px #00000005;
+                }
+              }  
+              &:last-of-type{
+                &:hover {
+                  background-color: #0f4637;
+                  box-shadow: 0px 4px 4px #00000005;
+                }
+              }  
+          }
+          }
+
+          
       }
 `
 
@@ -28,16 +78,22 @@ const RoomsContent = () => {
   const [loading, setLoading] = useState(true)
   const error = useSelector(getRoomsError);
   const { dispatch: authDispatch } = useAuthContext();
+  const [roomToDelete, setRoomToDelete] = useState('');
 
   const initialFetch = async () => {
       await dispatch(getRoomsThunk()).unwrap();
       setRoomsData(rooms);
       setLoading(false);
   } 
+
+  const handleDelete = async (id) => {
+    await dispatch(deleteRoomThunk(id)).unwrap();
+    setRoomToDelete('');
+  }
   
   useEffect(() => {
     initialFetch();
-  }, [loading])
+  }, [loading, rooms])
 
   useEffect(() => {
     if (error === 'Token expired' || error === 'Token not found') {
@@ -60,6 +116,14 @@ const RoomsContent = () => {
       } else {
         return <Button $error>Booked</Button>
       } 
+    }},
+    {label: 'Actions', property: 'actions', display: (row) => {
+      return (
+        <StyledActions>
+          <FontAwesomeIcon icon={faPenToSquare} />
+          <FontAwesomeIcon icon={faTrashCan} onClick={() => setRoomToDelete(row._id)} />
+        </StyledActions>
+      )
     }}
   ]
 
@@ -77,11 +141,19 @@ const RoomsContent = () => {
       <>
         <Filters buttons={filters} data={roomsData} setData={setRoomsData} rooms={rooms}/>
         <Table cols={cols} data={roomsData} />
-      </> 
+        {roomToDelete && <StyledBackdrop>
+                            <div className="delete-confirm-msg">
+                              <p>You are about to delete room {roomToDelete}. Are you sure?</p>
+                              <div>
+                                <Button onClick={() => setRoomToDelete('')}>Cancel</Button>
+                                <Button $primary onClick={() => handleDelete(roomToDelete)}>Delete</Button>
+                              </div>
+                            </div>
+                          </StyledBackdrop>}
+      </>
     }
   </StyledRoomsContainer>
   );
 };
-
 
 export default RoomsContent;

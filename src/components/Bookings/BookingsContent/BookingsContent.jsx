@@ -9,6 +9,7 @@ import { StyledLink } from "../../../styledComponents/Link"
 import { getBookingsData, getBookingsStatus, getBookingsError } from "../../../features/bookings/bookingsSlice";
 import { getBookingsThunk } from "../../../features/bookings/bookingsThunk";
 import { Button } from "../../../styledComponents/Button";
+import { StyledBackdrop } from "../../../styledComponents/StyledBackdrop";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const StyledBookingsContainer = styled.div`
@@ -38,16 +39,6 @@ const StyledDialog = styled.dialog`
     cursor: pointer;
   }
 `
-
-const StyledBackdrop = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); 
-  z-index: 999; 
-`;
 
 
 const BookingsContent = () => {
