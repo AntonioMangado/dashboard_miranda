@@ -15,6 +15,7 @@ const StyledNewRoomContainer = styled.div`
         background: white;
         padding: 20px;
         border-radius: 20px;
+        height: 100%;
         
         form {
           display: flex;

@@ -25,6 +25,11 @@ const Login = () => {
       },
       body: JSON.stringify({email, password}),
     })
+
+    if (!response.ok) {
+      notifyWrongCrendentials('Couldnt connect to server!');
+      return;
+    }
     const data = await response.json();
     if (!data.error && data.email) {
       const user = {

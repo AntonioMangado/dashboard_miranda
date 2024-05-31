@@ -20,7 +20,13 @@ export const StyledTable = styled.table`
         }
 
         a {
-            display: block;
+        color: black;
+        display: flex;
+        
+        svg {
+        margin: 0 auto;
         }
+      }
+
     }
 `

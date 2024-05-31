@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import {useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom"; 
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +12,7 @@ import { StyledBackdrop } from "../../../styledComponents/StyledBackdrop";
 import { getRoomsData, getRoomsStatus, getRoomsError } from "../../../features/rooms/roomsSlice";
 import { getRoomsThunk, deleteRoomThunk } from "../../../features/rooms/roomsThunk";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+import { toast } from "react-toastify";
 
 const StyledRoomsContainer = styled.div`
       padding: 35px;
@@ -88,12 +90,17 @@ const RoomsContent = () => {
 
   const handleDelete = async (id) => {
     await dispatch(deleteRoomThunk(id)).unwrap();
+    toast.success('Room deleted successfully');
     setRoomToDelete('');
   }
   
   useEffect(() => {
     initialFetch();
-  }, [loading, rooms])
+  }, [loading])
+
+  useEffect(() => {
+    setRoomsData(rooms)
+  }, [rooms])
 
   useEffect(() => {
     if (error === 'Token expired' || error === 'Token not found') {
@@ -120,7 +127,7 @@ const RoomsContent = () => {
     {label: 'Actions', property: 'actions', display: (row) => {
       return (
         <StyledActions>
-          <FontAwesomeIcon icon={faPenToSquare} />
+          <Link to={`/updateroom/${row._id}`}><FontAwesomeIcon icon={faPenToSquare}/></Link> 
           <FontAwesomeIcon icon={faTrashCan} onClick={() => setRoomToDelete(row._id)} />
         </StyledActions>
       )

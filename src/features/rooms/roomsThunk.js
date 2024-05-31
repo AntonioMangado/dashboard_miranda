@@ -16,8 +16,9 @@ export const deleteRoomThunk = createAsyncThunk("rooms/deleteRoom", async (id) =
     return request;
 })
 
-export const updateRoomThunk = createAsyncThunk("rooms/updateRoom", async (id, data) => {
-    const request = await fetchData(`/room/${id}`, 'PATCH', data);
+export const updateRoomThunk = createAsyncThunk("rooms/updateRoom", async ({id, body}) => {
+    const request = await fetchData(`/room/${id}`, 'PATCH', body);
+    console.log(body);
     return request;
 })
 
